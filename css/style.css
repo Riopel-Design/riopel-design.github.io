@@ -78,5 +78,11 @@ body {
     .nav-toggle {
       display: block;
     }
+
+    .nav-links a.active {
+        color: #0077ff;
+        font-weight: 600;
+      }
+      
   }
   
