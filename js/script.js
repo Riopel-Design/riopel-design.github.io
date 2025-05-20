@@ -25,11 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
   
-    // Load hero
-    fetch('/components/hero.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('hero-placeholder').innerHTML = data;
-      });
+    // Load hero only if the placeholder exists
+    const heroTarget = document.getElementById('hero-placeholder');
+    if (heroTarget) {
+      fetch('/components/hero.html')
+        .then(response => response.text())
+        .then(data => {
+          heroTarget.innerHTML = data;
+        });
+    }
   });
   
