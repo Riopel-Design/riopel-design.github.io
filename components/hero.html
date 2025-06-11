@@ -3,7 +3,7 @@
     
     <!-- Animated / Glitch headline -->
     <h1 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-gray-900 leading-tight animate-pulse">
-      <span class="inline-block transform hover:scale-105 transition duration-300 ease-in-out">
+      <span class="inline-block">
         I Code With Vibes
       </span>
     </h1>
@@ -20,7 +20,37 @@
     </a>
   </div>
 
-  <!-- Floating Background Element -->
-  <div class="absolute top-0 right-0 w-40 h-40 bg-pink-400 opacity-20 rounded-full blur-3xl animate-[spin_20s_linear_infinite]"></div>
-  <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-300 opacity-10 rounded-full blur-2xl animate-pulse"></div>
+  <!-- Floating Background Elements -->
+  <div class="absolute top-[-5rem] right-[-5rem] w-40 h-40 bg-pink-400 opacity-20 rounded-full blur-3xl animate-floatOne"></div>
+  <div class="absolute bottom-[-6rem] left-[-6rem] w-64 h-64 bg-blue-300 opacity-10 rounded-full blur-2xl animate-floatTwo"></div>
+  <div class="absolute top-[50%] left-[50%] w-48 h-48 bg-yellow-300 opacity-10 rounded-full blur-2xl animate-floatThree"></div>
 </section>
+
+<style>
+  @keyframes floatOne {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    50% { transform: translateY(20px) translateX(-10px) rotate(20deg); }
+  }
+
+  @keyframes floatTwo {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+    50% { transform: translateY(-30px) translateX(15px) scale(1.1); }
+  }
+
+  @keyframes floatThree {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-55%, -45%) rotate(15deg); }
+  }
+
+  .animate-floatOne {
+    animation: floatOne 16s ease-in-out infinite;
+  }
+
+  .animate-floatTwo {
+    animation: floatTwo 22s ease-in-out infinite;
+  }
+
+  .animate-floatThree {
+    animation: floatThree 30s ease-in-out infinite;
+  }
+</style>
