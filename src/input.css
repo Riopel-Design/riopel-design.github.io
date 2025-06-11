@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom utilities (Tailwind-safe) */
+@layer utilities {
+  #hero {
+    isolation: isolate;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.7) 0%,
+      transparent 60%
+    );
+    mix-blend-mode: screen;
+    transition: background 0.15s ease-out;
+  }
+
+  .blob {
+    @apply absolute rounded-full opacity-25 saturate-150 blur-3xl;
+    width: var(--size);
+    height: var(--size);
+    top: var(--y);
+    left: var(--x);
+    animation: blob-float var(--d) ease-in-out infinite alternate;
+  }
+
+  @keyframes blob-float {
+    0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate3d(60px, -40px, 0) scale(1.1) rotate(20deg); }
+  }
+}

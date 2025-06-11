@@ -1,24 +1,20 @@
-<!-- hero.html -->
-<section id="hero"
-         class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-yellow-100 py-24 px-6 text-center">
-  <!-- Main copy ------------------------------------------------------------->
+<!-- components/hero.html -->
+<section id="hero" class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-yellow-100 py-24 px-6 text-center">
   <div class="relative z-10 max-w-4xl mx-auto">
     <h1 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-gray-900 leading-tight">
       Coded with vibes&nbsp;and&nbsp;love
     </h1>
-
     <p class="mt-6 text-xl text-gray-600 max-w-xl mx-auto">
       Design-powered prototyping, chaos-driven development, and unexpected delight.
     </p>
-
     <a href="/work.html"
-       class="mt-10 inline-block rounded-xl bg-blue-600 py-3 px-8 text-lg font-semibold text-white shadow-xl
-              transition-all duration-300 hover:scale-105 hover:bg-blue-800">
+       class="mt-10 inline-block bg-blue-600 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-xl
+              hover:bg-blue-800 hover:scale-105 transition-all duration-300">
       See my work
     </a>
   </div>
 
-  <!-- Drifting colour blobs ------------------------------------------------->
+  <!-- Animated Nebula Blobs -->
   <div class="blob bg-pink-400"   style="--size:18rem; --x:-6rem;  --y:-8rem;  --d:45s;"></div>
   <div class="blob bg-indigo-400" style="--size:24rem; --x:70%;    --y:-10rem; --d:50s;"></div>
   <div class="blob bg-blue-400"   style="--size:22rem; --x:-12rem; --y:70%;   --d:38s;"></div>
@@ -26,53 +22,3 @@
   <div class="blob bg-yellow-300" style="--size:20rem; --x:-8rem;  --y:15%;   --d:32s;"></div>
   <div class="blob bg-red-400"    style="--size:18rem; --x:85%;    --y:85%;   --d:42s;"></div>
 </section>
-
-<style>
-  /* ---------- Layout & stacking ----------------------------------------- */
-  #hero { isolation: isolate; }                   /* keep pseudo & blobs separate */
-
-  /* ---------- Cursor-spotlight overlay ---------------------------------- */
-  #hero::after{
-    content:"";
-    position:absolute; inset:0;
-    pointer-events:none;
-    z-index:5;                                     /* above blobs, below text */
-    background:
-      radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%),
-                      rgba(255,255,255,0.7) 0%, transparent 60%);
-    mix-blend-mode:screen;
-    transition:background 0.12s ease-out;
-  }
-
-  /* ---------- Blobs ------------------------------------------------------ */
-  .blob{
-    position:absolute;
-    top:var(--y); left:var(--x);
-    width:var(--size); height:var(--size);
-    border-radius:50%;
-    filter:blur(80px) saturate(150%);
-    opacity:0.25;
-    animation:blob-float var(--d) ease-in-out infinite alternate;
-    will-change:transform;
-  }
-  @keyframes blob-float{
-    0%   { transform:translate3d(0,0,0)        scale(1)   rotate(0deg); }
-    100% { transform:translate3d(60px,-40px,0) scale(1.1) rotate(20deg); }
-  }
-</style>
-
-<script>
-/* ----------  Mouse-tracking spotlight  ---------------------------------- */
-(() => {
-  const hero = document.getElementById('hero');
-  hero.addEventListener('pointermove', e => {
-    const r = hero.getBoundingClientRect();
-    hero.style.setProperty('--mouse-x', `${((e.clientX - r.left) / r.width)  * 100}%`);
-    hero.style.setProperty('--mouse-y', `${((e.clientY - r.top)  / r.height) * 100}%`);
-  });
-  hero.addEventListener('pointerleave', () => {
-    hero.style.setProperty('--mouse-x', '50%');
-    hero.style.setProperty('--mouse-y', '50%');
-  });
-})();
-</script>
