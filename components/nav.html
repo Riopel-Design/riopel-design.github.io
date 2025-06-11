@@ -4,8 +4,8 @@
     <!-- Bubble RR Logo -->
     <a href="/" class="flex items-center space-x-3 select-none">
       <span class="font-black text-3xl text-blue-600 drop-shadow-md tracking-wide
-             rounded-full px-4 py-1 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300
-             animate-bounce shadow-lg hover:animate-[wiggle_0.7s_ease-in-out] cursor-pointer">
+                   rounded-full px-4 py-1 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300
+                   hover:animate-[wiggle_0.7s_ease-in-out] cursor-pointer">
         RR
       </span>
     </a>
@@ -34,24 +34,18 @@
 <!-- Wiggle keyframes & underline animation via Tailwind’s arbitrary values -->
 <style>
   @keyframes wiggle {
-
-    0%,
-    100% {
+    0%, 100% {
       transform: rotate(-3deg) scale(1);
     }
-
     20% {
       transform: rotate(5deg) scale(1.1) skewX(-5deg);
     }
-
     40% {
       transform: rotate(-2deg) scale(1.07) skewX(3deg);
     }
-
     60% {
       transform: rotate(2deg) scale(1.12) skewX(-2deg);
     }
-
     80% {
       transform: rotate(-1deg) scale(1.09) skewX(4deg);
     }
@@ -91,7 +85,6 @@
   .nav-link:hover,
   .nav-link:focus {
     color: #ef4444;
-    /* Tailwind red-500 */
     transform: scale(1.13) skewX(-6deg);
     animation: wiggle 0.7s;
   }
