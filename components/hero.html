@@ -1,100 +1,78 @@
 <!-- hero.html -->
 <section id="hero"
-         class="relative bg-gradient-to-br from-blue-50 via-white to-yellow-100 py-24 px-6 text-center overflow-hidden
-                [--mouse-x:50%] [--mouse-y:50%]">  <!-- CSS vars default to center -->
+         class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-yellow-100 py-24 px-6 text-center">
+  <!-- Main copy ------------------------------------------------------------->
   <div class="relative z-10 max-w-4xl mx-auto">
-    
-    <!-- Static headline -->
     <h1 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-gray-900 leading-tight">
-      Coded with vibes and love
+      Coded with vibes&nbsp;and&nbsp;love
     </h1>
 
-    <!-- Subtitle -->
     <p class="mt-6 text-xl text-gray-600 max-w-xl mx-auto">
       Design-powered prototyping, chaos-driven development, and unexpected delight.
     </p>
 
-    <!-- Call-to-action -->
     <a href="/work.html"
-       class="mt-10 inline-block bg-blue-600 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-xl
-              hover:bg-blue-800 hover:scale-105 transition-all duration-300">
+       class="mt-10 inline-block rounded-xl bg-blue-600 py-3 px-8 text-lg font-semibold text-white shadow-xl
+              transition-all duration-300 hover:scale-105 hover:bg-blue-800">
       See my work
     </a>
   </div>
 
-  <!-- “Fish” blobs -->
-  <div class="blob bg-pink-400   animate-swim-slow   w-72  h-72  top-[-8rem] right-[-6rem]  opacity-25"></div>
-  <div class="blob bg-blue-400   animate-swim-mid    w-96  h-96  bottom-[-8rem] left-[-10rem] opacity-20"></div>
-  <div class="blob bg-green-300  animate-swim-fast   w-52  h-52  top-[35%] left-[65%]  opacity-15"></div>
-  <div class="blob bg-yellow-300 animate-swim-mid    w-80  h-80  top-[10%] left-[-6rem] opacity-15"></div>
-  <div class="blob bg-purple-400 animate-swim-slow   w-[28rem] h-[28rem] bottom-[-12rem] right-[25%] opacity-10"></div>
-
-  <!-- Cursor spotlight (pseudo-element handled below) -->
+  <!-- Drifting colour blobs ------------------------------------------------->
+  <div class="blob bg-pink-400"   style="--size:18rem; --x:-6rem;  --y:-8rem;  --d:45s;"></div>
+  <div class="blob bg-indigo-400" style="--size:24rem; --x:70%;    --y:-10rem; --d:50s;"></div>
+  <div class="blob bg-blue-400"   style="--size:22rem; --x:-12rem; --y:70%;   --d:38s;"></div>
+  <div class="blob bg-green-300"  style="--size:14rem; --x:65%;    --y:35%;   --d:26s;"></div>
+  <div class="blob bg-yellow-300" style="--size:20rem; --x:-8rem;  --y:15%;   --d:32s;"></div>
+  <div class="blob bg-red-400"    style="--size:18rem; --x:85%;    --y:85%;   --d:42s;"></div>
 </section>
 
 <style>
-  /* ------------- GENERAL ------------- */
-  #hero {
-    position: relative;
-    isolation: isolate;          /* ensure pseudo stays under text */
-  }
-  /* Bright-spot that follows the cursor */
-  #hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+  /* ---------- Layout & stacking ----------------------------------------- */
+  #hero { isolation: isolate; }                   /* keep pseudo & blobs separate */
+
+  /* ---------- Cursor-spotlight overlay ---------------------------------- */
+  #hero::after{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    z-index:5;                                     /* above blobs, below text */
     background:
-      radial-gradient(
-        circle at var(--mouse-x) var(--mouse-y),
-        rgba(255,255,255,0.6) 0%,
-        rgba(255,255,255,0.0) 55%
-      );
-    mix-blend-mode: screen;      /* lightens whatever it sits over */
-    transition: background 0.15s ease;
+      radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%),
+                      rgba(255,255,255,0.7) 0%, transparent 60%);
+    mix-blend-mode:screen;
+    transition:background 0.12s ease-out;
   }
 
-  /* ------------- BLOBS ------------- */
-  .blob {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(80px) saturate(120%);
+  /* ---------- Blobs ------------------------------------------------------ */
+  .blob{
+    position:absolute;
+    top:var(--y); left:var(--x);
+    width:var(--size); height:var(--size);
+    border-radius:50%;
+    filter:blur(80px) saturate(150%);
+    opacity:0.25;
+    animation:blob-float var(--d) ease-in-out infinite alternate;
+    will-change:transform;
   }
-
-  /* Keyframes for organic “fish” motion */
-  @keyframes swim-slow {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(60px, -40px) scale(1.08) rotate(8deg); }
+  @keyframes blob-float{
+    0%   { transform:translate3d(0,0,0)        scale(1)   rotate(0deg); }
+    100% { transform:translate3d(60px,-40px,0) scale(1.1) rotate(20deg); }
   }
-  @keyframes swim-mid {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-80px, 50px) scale(1.1) rotate(-6deg); }
-  }
-  @keyframes swim-fast {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(40px, 70px) scale(0.9) rotate(12deg); }
-  }
-
-  .animate-swim-slow { animation: swim-slow 45s ease-in-out infinite; }
-  .animate-swim-mid  { animation: swim-mid  30s ease-in-out infinite; }
-  .animate-swim-fast { animation: swim-fast 18s ease-in-out infinite; }
 </style>
 
 <script>
-  /* ---------- Spotlight follows the cursor ---------- */
+/* ----------  Mouse-tracking spotlight  ---------------------------------- */
+(() => {
   const hero = document.getElementById('hero');
-
   hero.addEventListener('pointermove', e => {
-    const rect = hero.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width ) * 100;
-    const y = ((e.clientY - rect.top)  / rect.height) * 100;
-    hero.style.setProperty('--mouse-x', `${x}%`);
-    hero.style.setProperty('--mouse-y', `${y}%`);
+    const r = hero.getBoundingClientRect();
+    hero.style.setProperty('--mouse-x', `${((e.clientX - r.left) / r.width)  * 100}%`);
+    hero.style.setProperty('--mouse-y', `${((e.clientY - r.top)  / r.height) * 100}%`);
   });
-
-  /* On pointer leave, ease spotlight to center & dim slightly */
   hero.addEventListener('pointerleave', () => {
     hero.style.setProperty('--mouse-x', '50%');
     hero.style.setProperty('--mouse-y', '50%');
   });
+})();
 </script>
