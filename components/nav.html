@@ -1,16 +1,20 @@
 <nav class="w-full sticky top-0 z-50 bg-white border-b border-gray-200 dark:bg-primary-500 dark:border-gray-700">
   <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-    
-    <!-- Logo -->
-    <a href="/" class="text-2xl font-black text-blue-700 animate-pulse hover:rotate-1 transition-all duration-300">
-      Robert Riopel
+
+    <!-- Bubble RR Logo -->
+    <a href="/" class="flex items-center space-x-3 select-none">
+      <span class="font-black text-3xl text-blue-600 drop-shadow-[0_1.5px_0_#0077ff] tracking-wide
+                   rounded-full px-4 py-1 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300
+                   animate-bounce shadow-lg hover:animate-[wiggle_1s_ease-in-out_infinite] cursor-pointer">
+        RR
+      </span>
     </a>
 
     <!-- Nav Links (Desktop) -->
-    <div class="hidden md:flex gap-6 text-lg font-medium items-center">
-      <a href="/work.html" class="hover:text-pink-600 transition-colors duration-200">Work</a>
-      <a href="/about.html" class="hover:text-indigo-500 transition-colors duration-200">About</a>
-      <a href="/fun.html" class="hover:text-yellow-500 transition-colors duration-200">Fun</a>
+    <div class="hidden md:flex gap-6 text-lg font-semibold items-center">
+      <a href="/work.html" class="group relative nav-link">Work</a>
+      <a href="/about.html" class="group relative nav-link">About</a>
+      <a href="/fun.html" class="group relative nav-link">Fun</a>
     </div>
 
     <!-- Hamburger (Mobile) -->
@@ -21,20 +25,59 @@
 
   <!-- Mobile Menu (hidden by default) -->
   <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 gap-4 text-lg font-medium">
-    <a href="/work.html" class="hover:text-pink-600">Work</a>
-    <a href="/about.html" class="hover:text-indigo-500">About</a>
-    <a href="/fun.html" class="hover:text-yellow-500">Fun</a>
+    <a href="/work.html" class="group relative nav-link">Work</a>
+    <a href="/about.html" class="group relative nav-link">About</a>
+    <a href="/fun.html" class="group relative nav-link">Fun</a>
   </div>
 </nav>
+
+<!-- Wiggle keyframes & underline animation via Tailwind’s arbitrary values -->
+<style>
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg) scale(1); }
+  20% { transform: rotate(5deg) scale(1.1) skewX(-5deg);}
+  40% { transform: rotate(-2deg) scale(1.07) skewX(3deg);}
+  60% { transform: rotate(2deg) scale(1.12) skewX(-2deg);}
+  80% { transform: rotate(-1deg) scale(1.09) skewX(4deg);}
+}
+</style>
 
 <script>
   // Mobile nav toggle
   document.addEventListener('DOMContentLoaded', function () {
     const navToggle = document.getElementById('navToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    
-    navToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
+    if (navToggle && mobileMenu) {
+      navToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
   });
 </script>
+
+<!-- Tailwind plugin for underline animation using pseudo elements -->
+<style>
+.nav-link {
+  transition: color 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-link::after {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #3b82f6, #ef4444, #eab308 95%);
+  transition: width 0.3s cubic-bezier(0.68,-0.55,0.27,1.55);
+}
+.nav-link:hover,
+.nav-link:focus {
+  color: #ef4444; /* Tailwind red-500 */
+  transform: scale(1.13) skewX(-6deg);
+  animation: wiggle 0.7s;
+}
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 70%;
+}
+</style>
