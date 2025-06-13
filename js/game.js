@@ -3,43 +3,45 @@
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
-// Updated 16x16 complex mazes
 const LEVELS = [
+  // Level 1 — now beatable and tricky
   [
     "WWWWWWWWWWWWWWWW",
-    "WP W     W     W",
-    "W WWWWWW W WWWWW",
-    "W     W    W   W",
-    "WWW W WWWWWW W W",
-    "W   W     W  W W",
-    "W WWWWWW WWWWW W",
-    "W     W     W  W",
-    "WWW W W WWWWW WW",
-    "W   W   W   W  W",
-    "W WWWWWWW W WWWW",
-    "W       W W    W",
-    "W WWWWW WWW WWWW",
-    "W     W     W  W",
-    "WWWWW WWWWWWW WC",
-    "WWWWWWWWWWWWWWWW",
+    "W   W     W    W",
+    "W W W WWWWW WW W",
+    "W W W     W    W",
+    "W W WWWWWWW WW W",
+    "W W       W W  W",
+    "W WWW WWW W WWWW",
+    "W     W   W   WW",
+    "WWWWW WWW WWW WW",
+    "W     W   W    W",
+    "W WWWWWWW WWWW W",
+    "W W     W     WW",
+    "W W WWWWWWWWW  W",
+    "W W         WWWW",
+    "WPWWWWWWWWWWW C",
+    "WWWWWWWWWWWWWWWW"
   ],
+
+  // Level 2 — even harder
   [
     "WWWWWWWWWWWWWWWW",
-    "W     W   W   PW",
-    "W WWW W W WWWW W",
-    "W W   W W     WW",
-    "W W WWWWW WWW  W",
-    "W W     W   W WW",
-    "W WWWWW WWWWW  W",
-    "W     W     WWWW",
-    "WWW W WWWWW    W",
-    "W   W     WWWW W",
-    "W WWWWWWW     WW",
-    "W       WWWWW  W",
-    "W WWWWW     W WW",
-    "W   W   WWWWW  W",
-    "W W WWWWW   WC W",
-    "WWWWWWWWWWWWWWWW",
+    "W    W        PW",
+    "W WW WWWWWWWW WW",
+    "W W        W   W",
+    "W WWWWWW W WWWWW",
+    "W W    W W     W",
+    "W W WW WWWWWWW W",
+    "W   W        W W",
+    "WWW WWWWWWW WW W",
+    "W     W    W   W",
+    "W WWWWW WW WWWWW",
+    "W     W WW     W",
+    "W WWWWWWWWWWWW W",
+    "W             WW",
+    "W WWWWWWWWWWWWWC",
+    "WWWWWWWWWWWWWWWW"
   ]
 ];
 
