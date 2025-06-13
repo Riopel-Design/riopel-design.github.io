@@ -1,71 +1,96 @@
-// game.js — now with procedural generation, keys, doors, traps, and fun character
+// game.js — styled & functional
 
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
-const TILE = {
-  WALL: "W",
-  PATH: " ",
-  PLAYER: "P",
-  CHEST: "C",
-  KEY: "K",
-  DOOR: "D",
-  TRAP: "T"
-};
-
 const TILE_CLASSES = {
-  [TILE.WALL]: "cell cell-wall",
-  [TILE.PATH]: "cell cell-path",
-  [TILE.PLAYER]: "cell cell-player hamburger",
-  [TILE.CHEST]: "cell cell-chest",
-  [TILE.KEY]: "cell cell-key",
-  [TILE.DOOR]: "cell cell-door",
-  [TILE.TRAP]: "cell cell-trap"
+  W: "cell cell-wall",
+  ' ': "cell cell-path",
+  P: "cell cell-player hamburger",
+  C: "cell cell-chest",
+  K: "cell cell-key",
+  D: "cell cell-door"
 };
 
-let gridSize = 17;
 let level = 0;
 let playerPos = { x: 0, y: 0 };
-let keysCollected = 0;
+let hasKey = false;
 
+// --- Maze Generation ---
 function generateMaze(width, height) {
-  const maze = Array.from({ length: height }, () => Array(width).fill(TILE.WALL));
+  const maze = Array.from({ length: height }, () => Array(width).fill("W"));
+  const visited = Array.from({ length: height }, () => Array(width).fill(false));
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
 
   function carve(x, y) {
-    const dirs = [
-      [2, 0], [-2, 0],
-      [0, 2], [0, -2]
-    ].sort(() => Math.random() - 0.5);
-
-    for (const [dx, dy] of dirs) {
-      const nx = x + dx;
-      const ny = y + dy;
-      if (nx > 0 && ny > 0 && nx < width - 1 && ny < height - 1 && maze[ny][nx] === TILE.WALL) {
-        maze[ny][nx] = TILE.PATH;
-        maze[y + dy / 2][x + dx / 2] = TILE.PATH;
+    visited[y][x] = true;
+    maze[y][x] = " ";
+    const directions = shuffle([
+      [0, -2], [0, 2], [-2, 0], [2, 0]
+    ]);
+    for (const [dx, dy] of directions) {
+      const nx = x + dx, ny = y + dy;
+      if (ny >= 1 && ny < height - 1 && nx >= 1 && nx < width - 1 && !visited[ny][nx]) {
+        maze[y + dy / 2][x + dx / 2] = " ";
         carve(nx, ny);
       }
     }
   }
 
-  maze[1][1] = TILE.PATH;
-  carve(1, 1);
-  maze[1][1] = TILE.PLAYER;
-  maze[height - 2][width - 2] = TILE.CHEST;
+  const startX = 1, startY = 1;
+  carve(startX, startY);
+  maze[startY][startX] = "P";
 
-  // Place a key and a locked door
-  maze[2][2] = TILE.KEY;
-  maze[height - 3][Math.floor(width / 2)] = TILE.DOOR;
+  const distanceMap = Array.from({ length: height }, () => Array(width).fill(Infinity));
+  const queue = [[startX, startY, 0]];
+  let farthest = [startX, startY];
 
-  // Add a trap
-  maze[3][3] = TILE.TRAP;
+  while (queue.length) {
+    const [x, y, d] = queue.shift();
+    if (d > distanceMap[y][x]) continue;
+    distanceMap[y][x] = d;
+    if (d > distanceMap[farthest[1]][farthest[0]]) {
+      farthest = [x, y];
+    }
+    for (const [dx, dy] of [[0,1],[0,-1],[1,0],[-1,0]]) {
+      const nx = x+dx, ny = y+dy;
+      if (maze?.[ny]?.[nx] === " " && d+1 < distanceMap[ny][nx]) {
+        queue.push([nx, ny, d+1]);
+      }
+    }
+  }
+
+  maze[farthest[1]][farthest[0]] = "C"; // chest
+
+  // Insert key + door somewhere mid-path
+  let placedKey = false, placedDoor = false;
+  for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+      const d = distanceMap[y][x];
+      if (!placedKey && d > 4 && d < 8) {
+        maze[y][x] = "K";
+        placedKey = true;
+      }
+      if (!placedDoor && d > 8 && d < distanceMap[farthest[1]][farthest[0]] - 4) {
+        maze[y][x] = "D";
+        placedDoor = true;
+      }
+    }
+  }
 
   return maze.map(row => row.join(""));
 }
 
-let LEVELS = [
-  generateMaze(gridSize, gridSize),
-  generateMaze(gridSize + 2, gridSize + 2)
+const LEVELS = [
+  generateMaze(17, 17),
+  generateMaze(19, 19)
 ];
 
 function renderLevel() {
@@ -78,14 +103,12 @@ function renderLevel() {
   map.forEach((row, y) => {
     [...row].forEach((cell, x) => {
       const div = document.createElement("div");
-      div.className = TILE_CLASSES[cell] || TILE_CLASSES[TILE.PATH];
+      div.className = TILE_CLASSES[cell] || TILE_CLASSES[" "];
       div.dataset.x = x;
       div.dataset.y = y;
       gameEl.appendChild(div);
 
-      if (cell === TILE.PLAYER) {
-        playerPos = { x, y };
-      }
+      if (cell === "P") playerPos = { x, y };
     });
   });
 }
@@ -94,24 +117,16 @@ function movePlayer(dx, dy) {
   const map = LEVELS[level];
   const newX = playerPos.x + dx;
   const newY = playerPos.y + dy;
+  const tile = map?.[newY]?.[newX];
+  if (!tile || tile === "W") return;
 
-  const row = map?.[newY];
-  if (!row) return;
+  if (tile === "D" && !hasKey) return;
+  if (tile === "K") hasKey = true;
 
-  const tile = row[newX];
-  if (!tile || tile === TILE.WALL) return;
-
-  if (tile === TILE.KEY) {
-    keysCollected++;
-  }
-
-  if (tile === TILE.DOOR && keysCollected < 1) return;
-  if (tile === TILE.TRAP) alert("Yikes! You hit a trap. Keep going!");
-
-  if (tile === TILE.CHEST) {
-    if (level < LEVELS.length - 1) {
-      level++;
-      keysCollected = 0;
+  if (tile === "C") {
+    if (level === 0) {
+      level = 1;
+      hasKey = false;
       renderLevel();
       return;
     } else {
@@ -120,8 +135,8 @@ function movePlayer(dx, dy) {
     }
   }
 
-  LEVELS[level][playerPos.y] = replaceChar(map[playerPos.y], playerPos.x, TILE.PATH);
-  LEVELS[level][newY] = replaceChar(map[newY], newX, TILE.PLAYER);
+  LEVELS[level][playerPos.y] = replaceChar(map[playerPos.y], playerPos.x, " ");
+  LEVELS[level][newY] = replaceChar(map[newY], newX, "P");
 
   playerPos = { x: newX, y: newY };
   renderLevel();
