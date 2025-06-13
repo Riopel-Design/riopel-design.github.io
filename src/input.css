@@ -51,14 +51,32 @@
 
   .cell-wall    { background-color: #4b5563; }
   .cell-path    { background-color: #9ca3af; }
-  .cell-player  { background-color: transparent; background-size: cover; background-repeat: no-repeat; }
-  .cell-key     { background-color: gold; }
-  .cell-door    { background-color: #2563eb; } /* blue-600 */
-  .cell-chest   { background-color: #facc15; }
-
-  .hamburger {
+  .cell-player  {
+    background-color: transparent;
     background-image: url('/img/hamburger.png');
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .cell-key     {
+    background-color: transparent;
+    background-image: url('/img/key.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .cell-door    {
+    background-color: transparent;
+    background-image: url('/img/door.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .cell-chest   {
+    background-color: transparent;
+    background-image: url('/img/chest.png');
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
   }
 }
