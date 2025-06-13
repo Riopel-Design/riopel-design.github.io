@@ -14,11 +14,9 @@
     inset: 0;
     z-index: 5;
     pointer-events: none;
-    background: radial-gradient(
-      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(255, 255, 255, 0.7) 0%,
-      transparent 60%
-    );
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.7) 0%,
+        transparent 60%);
     mix-blend-mode: screen;
     transition: background 0.15s ease-out;
   }
@@ -33,8 +31,13 @@
   }
 
   @keyframes blob-float {
-    0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-    100% { transform: translate3d(60px, -40px, 0) scale(1.1) rotate(20deg); }
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+
+    100% {
+      transform: translate3d(60px, -40px, 0) scale(1.1) rotate(20deg);
+    }
   }
 
   /* ---------- Game styles ---------- */
@@ -43,36 +46,47 @@
   }
 
   .cell {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: calc(100vh / 20);
+    /* adjust 20 to match or exceed max rows */
+    height: calc(100vh / 20);
     background-color: #1e293b;
     image-rendering: pixelated;
   }
 
-  .cell-wall    { background-color: #4b5563; }
-  .cell-path    { background-color: #9ca3af; }
-  .cell-player  {
+
+  .cell-wall {
+    background-color: #4b5563;
+  }
+
+  .cell-path {
+    background-color: #9ca3af;
+  }
+
+  .cell-player {
     background-color: transparent;
     background-image: url('/img/hamburger.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-  .cell-key     {
+
+  .cell-key {
     background-color: transparent;
     background-image: url('/img/key.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-  .cell-door    {
+
+  .cell-door {
     background-color: transparent;
     background-image: url('/img/door.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-  .cell-chest   {
+
+  .cell-chest {
     background-color: transparent;
     background-image: url('/img/chest.png');
     background-size: cover;
