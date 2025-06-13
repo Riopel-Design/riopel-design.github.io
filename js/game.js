@@ -147,16 +147,30 @@ function replaceChar(str, index, replacement) {
 }
 
 function showModal() {
-  modal.classList.remove("hidden");
-  modal.innerHTML = `
-    <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div class="bg-yellow-200 text-black p-8 rounded-xl shadow-xl text-center max-w-md">
-        <h2 class="text-2xl font-bold mb-4">🎉 You made it!</h2>
-        <p class="mb-2">Here's how to reach me:</p>
-        <p class="font-mono text-lg">rriopel.design@gmail.com</p>
-      </div>
-    </div>
+  const existing = document.getElementById("modal-overlay");
+  if (existing) existing.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "modal-overlay";
+  overlay.className = "fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center";
+
+  const modalBox = document.createElement("div");
+  modalBox.className = "bg-yellow-200 text-black p-8 rounded-xl shadow-xl text-center max-w-md mx-auto";
+
+  modalBox.innerHTML = `
+    <h2 class="text-2xl font-bold mb-4">🎉 You made it!</h2>
+    <p class="mb-2">Here's how to reach me:</p>
+    <p class="font-mono text-lg">rriopel.design@gmail.com</p>
+    <button class="mt-4 px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition" onclick="closeModal()">Close</button>
   `;
+
+  overlay.appendChild(modalBox);
+  document.body.appendChild(overlay);
+}
+
+function closeModal() {
+  const modal = document.getElementById("modal-overlay");
+  if (modal) modal.remove();
 }
 
 document.addEventListener("keydown", (e) => {
