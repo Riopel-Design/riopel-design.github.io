@@ -1,4 +1,4 @@
-// game.js — styled & functional
+// game.js — styled & functional with sprite support
 
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
@@ -6,7 +6,7 @@ const modal = document.getElementById("contact-modal");
 const TILE_CLASSES = {
   W: "cell cell-wall",
   ' ': "cell cell-path",
-  P: "cell cell-player hamburger",
+  P: "cell cell-player",
   C: "cell cell-chest",
   K: "cell cell-key",
   D: "cell cell-door"
