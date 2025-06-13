@@ -3,37 +3,43 @@
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
+// Updated 16x16 complex mazes
 const LEVELS = [
-  // Level 1 — Expanded and trickier
   [
-    "WWWWWWWWWWWW",
-    "WP   W     W",
-    "W W WWWWW WW",
-    "W W     W  W",
-    "W WWWWW W WW",
-    "W     W W  W",
-    "W WWW W WWWW",
-    "W   W W    W",
-    "WWW WWWWWW W",
-    "W     W    W",
-    "W WWWWWWW WC",
-    "WWWWWWWWWWWW",
+    "WWWWWWWWWWWWWWWW",
+    "WP W     W     W",
+    "W WWWWWW W WWWWW",
+    "W     W    W   W",
+    "WWW W WWWWWW W W",
+    "W   W     W  W W",
+    "W WWWWWW WWWWW W",
+    "W     W     W  W",
+    "WWW W W WWWWW WW",
+    "W   W   W   W  W",
+    "W WWWWWWW W WWWW",
+    "W       W W    W",
+    "W WWWWW WWW WWWW",
+    "W     W     W  W",
+    "WWWWW WWWWWWW WC",
+    "WWWWWWWWWWWWWWWW",
   ],
-
-  // Level 2 — Maze inside a maze vibe
   [
-    "WWWWWWWWWWWW",
-    "WC   W     W",
-    "W WWW WWWW W",
-    "W     W    W",
-    "WWW W W WWWW",
-    "W   W W   WW",
-    "W WWWWW W  W",
-    "W     W WW W",
-    "WWWWW W W  W",
-    "W     W W WW",
-    "W WWWWWWP  W",
-    "WWWWWWWWWWWW",
+    "WWWWWWWWWWWWWWWW",
+    "W     W   W   PW",
+    "W WWW W W WWWW W",
+    "W W   W W     WW",
+    "W W WWWWW WWW  W",
+    "W W     W   W WW",
+    "W WWWWW WWWWW  W",
+    "W     W     WWWW",
+    "WWW W WWWWW    W",
+    "W   W     WWWW W",
+    "W WWWWWWW     WW",
+    "W       WWWWW  W",
+    "W WWWWW     W WW",
+    "W   W   WWWWW  W",
+    "W W WWWWW   WC W",
+    "WWWWWWWWWWWWWWWW",
   ]
 ];
 
@@ -47,10 +53,12 @@ const TILE_CLASSES = {
 let level = 0;
 let playerPos = { x: 0, y: 0 };
 
-// Generate the board from a level array
 function renderLevel() {
   gameEl.innerHTML = "";
   const map = LEVELS[level];
+
+  const cols = map[0].length;
+  gameEl.style.gridTemplateColumns = `repeat(${cols}, 2.5rem)`;
 
   map.forEach((row, y) => {
     [...row].forEach((cell, x) => {
@@ -65,10 +73,6 @@ function renderLevel() {
       }
     });
   });
-
-  // Update grid size dynamically
-  const cols = LEVELS[level][0].length;
-  gameEl.style.gridTemplateColumns = `repeat(${cols}, 2.5rem)`;
 }
 
 function movePlayer(dx, dy) {
