@@ -12,9 +12,9 @@
 
     <!-- Nav Links (Desktop) -->
     <div class="hidden md:flex gap-6 text-lg font-semibold items-center">
-      <a href="/work.html" class="group relative nav-link">Work</a>
-      <a href="/about.html" class="group relative nav-link">About</a>
-      <a href="/fun.html" class="group relative nav-link">Fun</a>
+      <a href="/work.html" class="group relative nav-link text-black dark:text-white">Work</a>
+      <a href="/about.html" class="group relative nav-link text-black dark:text-white">About</a>
+      <a href="/fun.html" class="group relative nav-link text-black dark:text-white">Fun</a>
     </div>
 
     <!-- Hamburger (Mobile) -->
@@ -25,9 +25,9 @@
 
   <!-- Mobile Menu (hidden by default) -->
   <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 gap-4 text-lg font-medium">
-    <a href="/work.html" class="group relative nav-link">Work</a>
-    <a href="/about.html" class="group relative nav-link">About</a>
-    <a href="/fun.html" class="group relative nav-link">Fun</a>
+    <a href="/work.html" class="group relative nav-link text-black dark:text-white">Work</a>
+    <a href="/about.html" class="group relative nav-link text-black dark:text-white">About</a>
+    <a href="/fun.html" class="group relative nav-link text-black dark:text-white">Fun</a>
   </div>
 </nav>
 
@@ -59,7 +59,7 @@
     const mobileMenu = document.getElementById('mobileMenu');
     if (navToggle && mobileMenu) {
       navToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
+        menu.classList.toggle('hidden');
       });
     }
   });
