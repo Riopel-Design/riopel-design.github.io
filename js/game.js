@@ -17,8 +17,14 @@ const TILE_CLASSES = {
 
 function generateMaze(size) {
   const grid = Array.from({ length: size }, () => Array(size).fill("W"));
+  let farthest = { x: 1, y: 1, dist: 0 };
 
-  function carve(x, y) {
+  function carve(x, y, dist = 0) {
+    grid[y][x] = " ";
+    if (dist > farthest.dist) {
+      farthest = { x, y, dist };
+    }
+
     const dirs = [
       [0, -2], [2, 0], [0, 2], [-2, 0]
     ].sort(() => Math.random() - 0.5);
@@ -28,15 +34,14 @@ function generateMaze(size) {
       const ny = y + dy;
 
       if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && grid[ny][nx] === "W") {
-        grid[ny][nx] = " ";
         grid[y + dy / 2][x + dx / 2] = " ";
-        carve(nx, ny);
+        carve(nx, ny, dist + 1);
       }
     }
   }
 
-  grid[playerPos.y][playerPos.x] = " ";
   carve(playerPos.x, playerPos.y);
+  chestPos = { x: farthest.x, y: farthest.y };
   grid[chestPos.y][chestPos.x] = "C";
   return grid;
 }
