@@ -160,6 +160,9 @@ function showModal() {
 }
 
 document.addEventListener("keydown", (e) => {
+  const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+  if (keys.includes(e.key)) e.preventDefault();
+
   switch (e.key) {
     case "ArrowUp": return movePlayer(0, -1);
     case "ArrowDown": return movePlayer(0, 1);

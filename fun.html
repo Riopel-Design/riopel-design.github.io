@@ -1,34 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robert Riopel — Maze Game</title>
+  <title>Maze Game — Robert Riopel</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/script.js" defer></script>
   <script src="js/game.js" defer></script>
 </head>
 
-<body class="bg-black text-white">
+<body class="h-full bg-black text-white overflow-hidden flex flex-col">
   <!-- Nav -->
   <div id="nav-placeholder"></div>
 
-  <!-- Game container -->
-  <main class="flex flex-col items-center justify-center min-h-[80vh] p-4">
-    <h1 class="text-3xl md:text-5xl font-bold mb-6 text-green-400 text-center">Find the Golden Chest</h1>
+  <!-- Fullscreen Game Container -->
+  <main class="flex flex-col items-center justify-center flex-1">
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-green-400 text-center">
+      Find the Golden Chest
+    </h1>
 
-    <div id="game" class="grid grid-cols-[repeat(10,2.5rem)] grid-rows-[repeat(10,2.5rem)] gap-0.5 bg-gray-800 p-2 rounded">
-      <!-- JS will generate maze cells here -->
+    <div id="game"
+         class="grid grid-cols-[repeat(17,2.5rem)] auto-rows-[2.5rem] gap-[2px] bg-gray-800 p-2 rounded shadow-lg">
+      <!-- JS-generated tiles -->
     </div>
 
-    <!-- Contact modal (hidden until chest is opened) -->
-    <div id="contact-modal"
-         class="hidden mt-10 p-6 bg-yellow-200 text-black text-center rounded shadow-lg max-w-md animate-fade-in">
-      <h2 class="text-xl font-bold mb-2">🎉 You made it!</h2>
-      <p>Here's how to reach me:</p>
-      <p class="mt-2 font-mono">robert@rvezy.com</p>
-    </div>
+    <!-- Modal (JS-injected) -->
+    <div id="contact-modal" class="hidden"></div>
   </main>
 </body>
 
