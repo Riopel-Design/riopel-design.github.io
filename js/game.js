@@ -1,120 +1,87 @@
-// game.js
+// game.js — Maze Generator Based Version (16x16)
 
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
-const LEVELS = [
-  // Level 1 — beatable, verified, with loops and misleads
-  [
-    "WWWWWWWWWWWWWWWW",
-    "WP     W      WW",
-    "W WWWW WWWWWW WW",
-    "W W        WW  W",
-    "W WWWWWW W WWWWW",
-    "W     W  W    WW",
-    "WWWWW WWWWWWW WW",
-    "W     W        W",
-    "W WWWW WWWWWWWWW",
-    "W     W        W",
-    "WWWWW WWWWWWW WW",
-    "W   W W     W  W",
-    "W W W W WWWWW WW",
-    "W W     W      W",
-    "W WWWWWWW WWWW W",
-    "WWWWWWWWWWWWW WC"
-  ],
-
-  // Level 2 — trickier, longer, and still solvable
-  [
-    "WWWWWWWWWWWWWWWW",
-    "WP W        W  W",
-    "W WWWWWWWW WWW W",
-    "W     W     W  W",
-    "WWW W WWWWWWWW W",
-    "W   W       W  W",
-    "W WWWWWWWW WWWWW",
-    "W W     W      W",
-    "W W WWWWWWWWWW W",
-    "W W W        W W",
-    "W W W WWWWW WW W",
-    "W W W W    W W W",
-    "W W WWWWW WW W W",
-    "W W       WW   W",
-    "W WWWWWWWWWWWWCW",
-    "WWWWWWWWWWWWWWWW"
-  ]
-];
+const SIZE = 16;
+let maze = [];
+let playerPos = { x: 1, y: 1 };
+let chestPos = { x: SIZE - 2, y: SIZE - 2 };
 
 const TILE_CLASSES = {
   W: "cell cell-wall",
-  " ": "cell cell-path",
   P: "cell cell-player",
-  C: "cell cell-chest"
+  C: "cell cell-chest",
+  " ": "cell cell-path",
 };
 
-let level = 0;
-let playerPos = { x: 0, y: 0 };
+function generateMaze(size) {
+  const grid = Array.from({ length: size }, () => Array(size).fill("W"));
 
-function renderLevel() {
-  gameEl.innerHTML = "";
-  const map = LEVELS[level];
-  const cols = map[0].length;
-  gameEl.style.gridTemplateColumns = `repeat(${cols}, 2.5rem)`;
+  function carve(x, y) {
+    const dirs = [
+      [0, -2], [2, 0], [0, 2], [-2, 0]
+    ].sort(() => Math.random() - 0.5);
 
-  map.forEach((row, y) => {
-    [...row].forEach((cell, x) => {
-      const div = document.createElement("div");
-      div.className = TILE_CLASSES[cell] || TILE_CLASSES[" "];
-      div.dataset.x = x;
-      div.dataset.y = y;
-      gameEl.appendChild(div);
-      if (cell === "P") {
-        playerPos = { x, y };
+    for (const [dx, dy] of dirs) {
+      const nx = x + dx;
+      const ny = y + dy;
+
+      if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && grid[ny][nx] === "W") {
+        grid[ny][nx] = " ";
+        grid[y + dy / 2][x + dx / 2] = " ";
+        carve(nx, ny);
       }
+    }
+  }
+
+  grid[playerPos.y][playerPos.x] = " ";
+  carve(playerPos.x, playerPos.y);
+  grid[chestPos.y][chestPos.x] = "C";
+  return grid;
+}
+
+function renderMaze() {
+  gameEl.innerHTML = "";
+  gameEl.style.gridTemplateColumns = `repeat(${SIZE}, 2.5rem)`;
+
+  maze.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      const div = document.createElement("div");
+      const value = (x === playerPos.x && y === playerPos.y) ? "P" : cell;
+      div.className = TILE_CLASSES[value];
+      gameEl.appendChild(div);
     });
   });
 }
 
 function movePlayer(dx, dy) {
-  const map = LEVELS[level];
-  const newX = playerPos.x + dx;
-  const newY = playerPos.y + dy;
+  const nx = playerPos.x + dx;
+  const ny = playerPos.y + dy;
 
-  const row = map?.[newY];
-  if (!row) return;
+  if (maze[ny]?.[nx] !== "W") {
+    playerPos = { x: nx, y: ny };
 
-  const tile = row[newX];
-  if (!tile || tile === "W") return;
-
-  if (tile === "C") {
-    if (level === 0) {
-      level = 1;
-      renderLevel();
-      return;
-    } else {
+    if (nx === chestPos.x && ny === chestPos.y) {
       modal.classList.remove("hidden");
-      return;
     }
+
+    renderMaze();
   }
-
-  LEVELS[level][playerPos.y] = replaceChar(map[playerPos.y], playerPos.x, " ");
-  LEVELS[level][newY] = replaceChar(map[newY], newX, "P");
-
-  playerPos = { x: newX, y: newY };
-  renderLevel();
 }
 
-function replaceChar(str, index, replacement) {
-  return str.substring(0, index) + replacement + str.substring(index + 1);
+function initMazeGame() {
+  maze = generateMaze(SIZE);
+  renderMaze();
 }
 
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
-    case "ArrowUp": return movePlayer(0, -1);
-    case "ArrowDown": return movePlayer(0, 1);
-    case "ArrowLeft": return movePlayer(-1, 0);
-    case "ArrowRight": return movePlayer(1, 0);
+    case "ArrowUp": movePlayer(0, -1); break;
+    case "ArrowDown": movePlayer(0, 1); break;
+    case "ArrowLeft": movePlayer(-1, 0); break;
+    case "ArrowRight": movePlayer(1, 0); break;
   }
 });
 
-renderLevel();
+initMazeGame();
