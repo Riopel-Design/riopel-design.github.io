@@ -1,92 +1,143 @@
-// game.js — Maze Generator Based Version (16x16)
+// game.js — now with procedural generation, keys, doors, traps, and fun character
 
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
-const SIZE = 16;
-let maze = [];
-let playerPos = { x: 1, y: 1 };
-let chestPos = { x: SIZE - 2, y: SIZE - 2 };
-
-const TILE_CLASSES = {
-  W: "cell cell-wall",
-  P: "cell cell-player",
-  C: "cell cell-chest",
-  " ": "cell cell-path",
+const TILE = {
+  WALL: "W",
+  PATH: " ",
+  PLAYER: "P",
+  CHEST: "C",
+  KEY: "K",
+  DOOR: "D",
+  TRAP: "T"
 };
 
-function generateMaze(size) {
-  const grid = Array.from({ length: size }, () => Array(size).fill("W"));
-  let farthest = { x: 1, y: 1, dist: 0 };
+const TILE_CLASSES = {
+  [TILE.WALL]: "cell cell-wall",
+  [TILE.PATH]: "cell cell-path",
+  [TILE.PLAYER]: "cell cell-player hamburger",
+  [TILE.CHEST]: "cell cell-chest",
+  [TILE.KEY]: "cell cell-key",
+  [TILE.DOOR]: "cell cell-door",
+  [TILE.TRAP]: "cell cell-trap"
+};
 
-  function carve(x, y, dist = 0) {
-    grid[y][x] = " ";
-    if (dist > farthest.dist) {
-      farthest = { x, y, dist };
-    }
+let gridSize = 17;
+let level = 0;
+let playerPos = { x: 0, y: 0 };
+let keysCollected = 0;
 
+function generateMaze(width, height) {
+  const maze = Array.from({ length: height }, () => Array(width).fill(TILE.WALL));
+
+  function carve(x, y) {
     const dirs = [
-      [0, -2], [2, 0], [0, 2], [-2, 0]
+      [2, 0], [-2, 0],
+      [0, 2], [0, -2]
     ].sort(() => Math.random() - 0.5);
 
     for (const [dx, dy] of dirs) {
       const nx = x + dx;
       const ny = y + dy;
-
-      if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && grid[ny][nx] === "W") {
-        grid[y + dy / 2][x + dx / 2] = " ";
-        carve(nx, ny, dist + 1);
+      if (nx > 0 && ny > 0 && nx < width - 1 && ny < height - 1 && maze[ny][nx] === TILE.WALL) {
+        maze[ny][nx] = TILE.PATH;
+        maze[y + dy / 2][x + dx / 2] = TILE.PATH;
+        carve(nx, ny);
       }
     }
   }
 
-  carve(playerPos.x, playerPos.y);
-  chestPos = { x: farthest.x, y: farthest.y };
-  grid[chestPos.y][chestPos.x] = "C";
-  return grid;
+  maze[1][1] = TILE.PATH;
+  carve(1, 1);
+  maze[1][1] = TILE.PLAYER;
+  maze[height - 2][width - 2] = TILE.CHEST;
+
+  // Place a key and a locked door
+  maze[2][2] = TILE.KEY;
+  maze[height - 3][Math.floor(width / 2)] = TILE.DOOR;
+
+  // Add a trap
+  maze[3][3] = TILE.TRAP;
+
+  return maze.map(row => row.join(""));
 }
 
-function renderMaze() {
-  gameEl.innerHTML = "";
-  gameEl.style.gridTemplateColumns = `repeat(${SIZE}, 2.5rem)`;
+let LEVELS = [
+  generateMaze(gridSize, gridSize),
+  generateMaze(gridSize + 2, gridSize + 2)
+];
 
-  maze.forEach((row, y) => {
-    row.forEach((cell, x) => {
+function renderLevel() {
+  gameEl.innerHTML = "";
+  const map = LEVELS[level];
+
+  const cols = map[0].length;
+  gameEl.style.gridTemplateColumns = `repeat(${cols}, 2.5rem)`;
+
+  map.forEach((row, y) => {
+    [...row].forEach((cell, x) => {
       const div = document.createElement("div");
-      const value = (x === playerPos.x && y === playerPos.y) ? "P" : cell;
-      div.className = TILE_CLASSES[value];
+      div.className = TILE_CLASSES[cell] || TILE_CLASSES[TILE.PATH];
+      div.dataset.x = x;
+      div.dataset.y = y;
       gameEl.appendChild(div);
+
+      if (cell === TILE.PLAYER) {
+        playerPos = { x, y };
+      }
     });
   });
 }
 
 function movePlayer(dx, dy) {
-  const nx = playerPos.x + dx;
-  const ny = playerPos.y + dy;
+  const map = LEVELS[level];
+  const newX = playerPos.x + dx;
+  const newY = playerPos.y + dy;
 
-  if (maze[ny]?.[nx] !== "W") {
-    playerPos = { x: nx, y: ny };
+  const row = map?.[newY];
+  if (!row) return;
 
-    if (nx === chestPos.x && ny === chestPos.y) {
-      modal.classList.remove("hidden");
-    }
+  const tile = row[newX];
+  if (!tile || tile === TILE.WALL) return;
 
-    renderMaze();
+  if (tile === TILE.KEY) {
+    keysCollected++;
   }
+
+  if (tile === TILE.DOOR && keysCollected < 1) return;
+  if (tile === TILE.TRAP) alert("Yikes! You hit a trap. Keep going!");
+
+  if (tile === TILE.CHEST) {
+    if (level < LEVELS.length - 1) {
+      level++;
+      keysCollected = 0;
+      renderLevel();
+      return;
+    } else {
+      modal.classList.remove("hidden");
+      return;
+    }
+  }
+
+  LEVELS[level][playerPos.y] = replaceChar(map[playerPos.y], playerPos.x, TILE.PATH);
+  LEVELS[level][newY] = replaceChar(map[newY], newX, TILE.PLAYER);
+
+  playerPos = { x: newX, y: newY };
+  renderLevel();
 }
 
-function initMazeGame() {
-  maze = generateMaze(SIZE);
-  renderMaze();
+function replaceChar(str, index, replacement) {
+  return str.substring(0, index) + replacement + str.substring(index + 1);
 }
 
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
-    case "ArrowUp": movePlayer(0, -1); break;
-    case "ArrowDown": movePlayer(0, 1); break;
-    case "ArrowLeft": movePlayer(-1, 0); break;
-    case "ArrowRight": movePlayer(1, 0); break;
+    case "ArrowUp": return movePlayer(0, -1);
+    case "ArrowDown": return movePlayer(0, 1);
+    case "ArrowLeft": return movePlayer(-1, 0);
+    case "ArrowRight": return movePlayer(1, 0);
   }
 });
 
-initMazeGame();
+renderLevel();
