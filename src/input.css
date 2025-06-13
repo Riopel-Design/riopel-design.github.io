@@ -39,7 +39,7 @@
 
   /* ---------- Game styles ---------- */
   #game {
-    font-size: 0; /* prevent whitespace gaps */
+    font-size: 0;
   }
 
   .cell {
@@ -49,9 +49,16 @@
     image-rendering: pixelated;
   }
 
-  .cell-wall    { background-color: #4b5563; } /* gray-600 */
-  .cell-path    { background-color: #9ca3af; } /* gray-400 */
-  .cell-player  { background-color: #10b981; } /* green-500 */
-  .cell-lava    { background-color: #f97316; } /* orange-500 */
-  .cell-chest   { background-color: #facc15; } /* yellow-400 */
+  .cell-wall    { background-color: #4b5563; }
+  .cell-path    { background-color: #9ca3af; }
+  .cell-player  { background-color: transparent; background-size: cover; background-repeat: no-repeat; }
+  .cell-key     { background-color: gold; }
+  .cell-door    { background-color: #2563eb; } /* blue-600 */
+  .cell-chest   { background-color: #facc15; }
+
+  .hamburger {
+    background-image: url('/img/hamburger.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 }
