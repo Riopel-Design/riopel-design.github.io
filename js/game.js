@@ -1,4 +1,4 @@
-// game.js — styled & functional with sprite support
+// game.js — styled & functional with sprite support and modal
 
 const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
@@ -130,7 +130,7 @@ function movePlayer(dx, dy) {
       renderLevel();
       return;
     } else {
-      modal.classList.remove("hidden");
+      showModal();
       return;
     }
   }
@@ -144,6 +144,19 @@ function movePlayer(dx, dy) {
 
 function replaceChar(str, index, replacement) {
   return str.substring(0, index) + replacement + str.substring(index + 1);
+}
+
+function showModal() {
+  modal.classList.remove("hidden");
+  modal.innerHTML = `
+    <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-yellow-200 text-black p-8 rounded-xl shadow-xl text-center max-w-md">
+        <h2 class="text-2xl font-bold mb-4">🎉 You made it!</h2>
+        <p class="mb-2">Here's how to reach me:</p>
+        <p class="font-mono text-lg">rriopel.design@gmail.com</p>
+      </div>
+    </div>
+  `;
 }
 
 document.addEventListener("keydown", (e) => {
