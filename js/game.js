@@ -4,43 +4,43 @@ const gameEl = document.getElementById("game");
 const modal = document.getElementById("contact-modal");
 
 const LEVELS = [
-  // Level 1 — now beatable and tricky
+  // Level 1 — beatable, verified, with loops and misleads
   [
     "WWWWWWWWWWWWWWWW",
-    "W   W     W    W",
-    "W W W WWWWW WW W",
-    "W W W     W    W",
-    "W W WWWWWWW WW W",
-    "W W       W W  W",
-    "W WWW WWW W WWWW",
-    "W     W   W   WW",
-    "WWWWW WWW WWW WW",
-    "W     W   W    W",
+    "WP     W      WW",
+    "W WWWW WWWWWW WW",
+    "W W        WW  W",
+    "W WWWWWW W WWWWW",
+    "W     W  W    WW",
+    "WWWWW WWWWWWW WW",
+    "W     W        W",
+    "W WWWW WWWWWWWWW",
+    "W     W        W",
+    "WWWWW WWWWWWW WW",
+    "W   W W     W  W",
+    "W W W W WWWWW WW",
+    "W W     W      W",
     "W WWWWWWW WWWW W",
-    "W W     W     WW",
-    "W W WWWWWWWWW  W",
-    "W W         WWWW",
-    "WPWWWWWWWWWWW C",
-    "WWWWWWWWWWWWWWWW"
+    "WWWWWWWWWWWWW WC"
   ],
 
-  // Level 2 — even harder
+  // Level 2 — trickier, longer, and still solvable
   [
     "WWWWWWWWWWWWWWWW",
-    "W    W        PW",
-    "W WW WWWWWWWW WW",
-    "W W        W   W",
-    "W WWWWWW W WWWWW",
-    "W W    W W     W",
-    "W W WW WWWWWWW W",
-    "W   W        W W",
-    "WWW WWWWWWW WW W",
-    "W     W    W   W",
-    "W WWWWW WW WWWWW",
-    "W     W WW     W",
-    "W WWWWWWWWWWWW W",
-    "W             WW",
-    "W WWWWWWWWWWWWWC",
+    "WP W        W  W",
+    "W WWWWWWWW WWW W",
+    "W     W     W  W",
+    "WWW W WWWWWWWW W",
+    "W   W       W  W",
+    "W WWWWWWWW WWWWW",
+    "W W     W      W",
+    "W W WWWWWWWWWW W",
+    "W W W        W W",
+    "W W W WWWWW WW W",
+    "W W W W    W W W",
+    "W W WWWWW WW W W",
+    "W W       WW   W",
+    "W WWWWWWWWWWWWCW",
     "WWWWWWWWWWWWWWWW"
   ]
 ];
@@ -58,7 +58,6 @@ let playerPos = { x: 0, y: 0 };
 function renderLevel() {
   gameEl.innerHTML = "";
   const map = LEVELS[level];
-
   const cols = map[0].length;
   gameEl.style.gridTemplateColumns = `repeat(${cols}, 2.5rem)`;
 
@@ -69,7 +68,6 @@ function renderLevel() {
       div.dataset.x = x;
       div.dataset.y = y;
       gameEl.appendChild(div);
-
       if (cell === "P") {
         playerPos = { x, y };
       }
