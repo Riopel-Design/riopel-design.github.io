@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Night App — Robert Riopel</title>
+  <meta name="description" content="Designing and developing a React Native dating app from concept to App Store — end-to-end product, engineering, and launch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+</head>
+<body class="bg-surface text-ink font-body">
+  <div id="nav-placeholder"></div>
+
+  <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
+
+    <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
+      <p class="tag">Side Project · 2024</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+    </div>
+
+    <header class="mt-12 reveal">
+      <h1 class="font-display text-section md:text-hero max-w-4xl">Date Night</h1>
+      <p class="mt-5 text-muted text-lg leading-relaxed max-w-2xl">
+        A dating app where users create and RSVP to real date ideas — built solo from concept to App Store with React Native, Expo, and Supabase. Product design, engineering, and launch, end to end.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <span class="metric">React Native + Expo</span>
+        <span class="metric">Supabase backend</span>
+        <span class="metric">Shipped to App Store</span>
+      </div>
+    </header>
+
+    <!-- Phone mockups -->
+    <div class="mt-14 reveal">
+      <div class="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <div class="aspect-[9/19] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Onboarding</span>
+        </div>
+        <div class="aspect-[9/19] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Browse dates</span>
+        </div>
+        <div class="aspect-[9/19] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Date detail</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- The concept -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">The Concept</span>
+      </div>
+      <div class="max-w-3xl space-y-5 text-muted leading-relaxed">
+        <p>
+          Most dating apps optimize for swiping. Date Night flips the model: instead of matching on profiles, users create real date ideas — "Coffee and sunset walk at Dow's Lake, Saturday 6PM" — and others RSVP. The date is the starting point, not the profile.
+        </p>
+        <p>
+          I designed and developed every piece: user research, UX flows, UI design, React Native frontend, Supabase backend, authentication, database schema, Google Places integration, and the App Store submission.
+        </p>
+      </div>
+    </section>
+
+    <!-- What I built -->
+    <section class="mt-22">
+      <div class="section-divider reveal mb-8">
+        <span class="tag">What I Built</span>
+      </div>
+
+      <div class="space-y-14">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:items-center reveal">
+          <div class="md:col-span-5">
+            <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center max-w-[220px]">
+              <span class="tag">Onboarding flow</span>
+            </div>
+          </div>
+          <div class="md:col-span-7">
+            <h3 class="font-display text-xl font-bold mb-3">Onboarding & auth</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              Email-based authentication with Supabase Auth. Progressive onboarding that collects name, photo, and date preferences before showing the feed. Password strength validation, email verification, and rate limiting — security built in from the start, not bolted on later.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:items-center reveal">
+          <div class="md:col-span-7 md:order-2">
+            <h3 class="font-display text-xl font-bold mb-3">Date creation</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              Users describe a date idea with a title, description, location (via Google Places autocomplete), date/time, and optional photo. The creation flow is intentionally simple — three screens, not a form. The goal is to lower the barrier to posting so the feed stays active.
+            </p>
+          </div>
+          <div class="md:col-span-5 md:order-1">
+            <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center max-w-[220px]">
+              <span class="tag">Create a date</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:items-center reveal">
+          <div class="md:col-span-5">
+            <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center max-w-[220px]">
+              <span class="tag">RSVP + chat</span>
+            </div>
+          </div>
+          <div class="md:col-span-7">
+            <h3 class="font-display text-xl font-bold mb-3">RSVP & messaging</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              When someone RSVPs, both users are connected and can message within the app. Messages are real-time via Supabase Realtime subscriptions. The conversation is tied to a specific date, keeping context clear and reducing the "so what should we do?" problem of other apps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical challenges -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Challenges</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Payments</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Discovered mid-development that Stripe doesn't support dating apps. Pivoted the monetization strategy: launched as free with plans for in-app purchases via Apple's native payment system instead of external payment processing. The constraint forced a simpler, better business model.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Dependency hell</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            React Native + Expo + Supabase + Google Places = a lot of packages with conflicting version requirements. Spent significant time resolving dependency conflicts and build issues. Learned to pin versions aggressively and test on real devices early and often.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Database architecture</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Designed the Supabase schema from scratch: users, dates, RSVPs, messages, and reports. Row-level security policies ensure users only see what they should. Wrote migration scripts for every schema change, treating the database like code.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Solo everything</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            This project was a proof of concept that a designer can ship a real product end-to-end. No engineers, no PM, no QA. Product thinking, visual design, frontend development, backend architecture, and launch — one person, start to finish.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- More screens -->
+    <section class="mt-18 reveal">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Profile</span>
+        </div>
+        <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Messages</span>
+        </div>
+        <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Map view</span>
+        </div>
+        <div class="aspect-[9/16] bg-gradient-to-br from-border/60 to-faint/20 rounded-2xl flex items-center justify-center">
+          <span class="tag text-center">Settings</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Takeaway -->
+    <section class="mt-22 reveal max-w-3xl">
+      <div class="section-divider mb-8">
+        <span class="tag">Takeaway</span>
+      </div>
+      <p class="text-muted leading-relaxed">
+        Date Night proved something I'd always believed: designers who can code don't just make better mockups — they make better products. Understanding the technical constraints from the inside changed every design decision I made. And shipping the whole thing — from Figma to the App Store — gave me a level of product intuition that you can't get from handoff-only work.
+      </p>
+    </section>
+
+    <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
+      <a href="/case-studies/ai-figma-plugin.html" class="text-sm text-muted hover:text-ink transition-colors">← AI Figma Plugin</a>
+      <a href="/case-studies/host-dashboard.html" class="text-sm text-muted hover:text-ink transition-colors">Host Dashboard →</a>
+    </nav>
+  </article>
+
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

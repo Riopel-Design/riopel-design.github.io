@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host Dashboard Redesign — Robert Riopel</title>
+  <meta name="description" content="Redesigning the RVezy host dashboard into an action-driven notification centre that drove +22% engagement and $1.5M in GMV." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+</head>
+<body class="bg-surface text-ink font-body">
+  <div id="nav-placeholder"></div>
+
+  <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
+
+    <!-- Breadcrumb -->
+    <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
+      <p class="tag">Case Study · 2024</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+    </div>
+
+    <!-- Header -->
+    <header class="mt-12 reveal">
+      <h1 class="font-display text-section md:text-hero max-w-4xl">Host Dashboard Redesign</h1>
+      <p class="mt-5 text-muted text-lg leading-relaxed max-w-2xl">
+        Replacing a static host landing screen with an action-driven notification centre — surfacing what hosts need to do right now, how they're performing against targets, and what's coming next.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <span class="metric">+22% engagement</span>
+        <span class="metric">$1.5M incremental GMV</span>
+        <span class="metric">A/B tested</span>
+      </div>
+    </header>
+
+ <!-- Hero image -->
+    <div class="mt-14 reveal flex gap-4 items-start">
+      <div class="overflow-hidden rounded-xl" style="flex:3">
+        <img src="/img/case-studies/host-dashboard01.png" alt="Host Dashboard desktop view" class="w-full h-auto" loading="lazy" />
+      </div>
+      <div class="overflow-hidden rounded-xl" style="flex:1">
+        <img src="/img/case-studies/host-dashboard-mobile.png" alt="Host Dashboard mobile view" class="w-full h-auto" loading="lazy" />
+      </div>
+    </div>
+
+
+    <!-- Context + Sidebar -->
+    <section class="mt-18 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14">
+      <div class="md:col-span-7 reveal">
+        <h2 class="font-display text-2xl font-bold mb-4">Context</h2>
+        <div class="space-y-4 text-muted leading-relaxed">
+          <p>
+            RVezy's existing host home screen was a dead end. It showed a booking count and an earnings total, but gave hosts no indication of what they should do next. Booking requests went unaccepted. Enquiries sat unanswered. New hosts stalled mid-onboarding because nothing prompted them to finish.
+          </p>
+          <p>
+            The business needed hosts to act — accept bookings faster, respond to guests, complete verification, enable instant book. The existing screen wasn't driving any of that. We needed a notification centre, not a summary page.
+          </p>
+        </div>
+      </div>
+      <aside class="md:col-span-5 reveal">
+        <div class="rounded-xl border border-border p-6 space-y-5">
+          <div>
+            <p class="tag mb-2">Role</p>
+            <p class="text-sm text-ink font-medium">Sole Product Designer</p>
+          </div>
+          <div>
+            <p class="tag mb-2">Scope</p>
+            <p class="text-sm text-ink font-medium">Mobile-first dashboard, notification cards, performance benchmarks, multi-state logic</p>
+          </div>
+          <div>
+            <p class="tag mb-2">Team</p>
+            <p class="text-sm text-ink font-medium">1 PM, 3 Engineers, 1 Data Analyst</p>
+          </div>
+          <div>
+            <p class="tag mb-2">Validation</p>
+            <p class="text-sm text-ink font-medium">50/50 A/B test, split by user ID, tracked per platform</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Problem -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">The Problem</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <h3 class="font-display text-xl font-bold mb-3">Hosts didn't know what to do next</h3>
+          <p class="text-muted leading-relaxed">
+            New hosts who hadn't completed ID verification, insurance profiles, or payout setup had no persistent reminder. Booking requests and enquiries lived in separate screens with no urgency signals. The dashboard didn't tell hosts what needed attention — it just showed them what already happened.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-bold mb-3">No visibility into performance targets</h3>
+          <p class="text-muted leading-relaxed">
+            RVezy has clear benchmarks for host quality — 70% acceptance rate, 90% response rate, maximum 1 cancellation per year — but hosts had no idea these targets existed, let alone where they stood against them. Underperforming hosts didn't know they were underperforming.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before state -->
+    <div class="mt-14 reveal">
+      <div class="overflow-hidden rounded-xl">
+        <img src="/img/case-studies/host-dashboard-old.png" alt="Old host dashboard" class="w-full h-auto" loading="lazy" />
+      </div>
+      <p class="mt-3 text-xs text-faint text-center">The old host home screen — static numbers, no actions, no targets</p>
+    </div>
+
+    <!-- What I designed -->
+    <section class="mt-22">
+      <div class="section-divider reveal mb-8">
+        <span class="tag">What I Designed</span>
+      </div>
+      <div class="max-w-3xl reveal">
+        <p class="text-muted leading-relaxed mb-8">
+          I modeled the new dashboard after Airbnb's host home — a feed of contextual notification cards that surface the right action at the right time — but tailored it for the unique elements of RV rentals: inspection windows, onboarding calls, seasonal availability, and multi-day trips.
+        </p>
+      </div>
+
+      <!-- Card types -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-border reveal">
+        <div class="bg-surface p-8">
+          <p class="font-display text-lg font-bold mb-2">Booking action cards</p>
+          <p class="text-sm text-muted leading-relaxed">
+            Pending booking requests and unanswered enquiries surface as top-priority cards with clear accept/decline actions. No more navigating to a separate bookings screen to find out something needs attention.
+          </p>
+        </div>
+        <div class="bg-surface p-8">
+          <p class="font-display text-lg font-bold mb-2">Onboarding nudges</p>
+          <p class="text-sm text-muted leading-relaxed">
+            Hosts who haven't completed required steps — ID verification, insurance profile, payout setup — see persistent cards with one-tap actions. A dedicated card lets new hosts book an onboarding call directly via Calendly.
+          </p>
+        </div>
+        <div class="bg-surface p-8">
+          <p class="font-display text-lg font-bold mb-2">Inspection reminders</p>
+          <p class="text-sm text-muted leading-relaxed">
+            On trip start and return dates, hosts see notification cards prompting them to complete departure and return inspections. Cards appear and disappear based on each booking's check-in/check-out times, with deep links into the app's inspection flow.
+          </p>
+        </div>
+        <div class="bg-surface p-8">
+          <p class="font-display text-lg font-bold mb-2">Opportunity cards</p>
+          <p class="text-sm text-muted leading-relaxed">
+            Contextual nudges for growth actions — enabling instant book where eligible, improving listing photos, adjusting seasonal pricing. These appear based on host behavior and eligibility, not on a fixed schedule.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard states -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Designing for Every State</span>
+      </div>
+      <p class="text-muted leading-relaxed max-w-3xl mb-10">
+        The dashboard needed to work for a brand-new host with a draft listing, a host who just published but has zero bookings, and a veteran host managing multiple RVs. I mapped three core states and designed each one to feel useful, not empty.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border border-border rounded-xl p-6">
+          <p class="tag text-accent mb-3">State 1</p>
+          <h3 class="font-display text-lg font-bold mb-2">Draft listing</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Dashboard shows onboarding checklist cards — finish your listing, verify your identity, set up payouts, book your onboarding call. Progress bar at top shows completion.
+          </p>
+        </div>
+        <div class="border border-border rounded-xl p-6">
+          <p class="tag text-accent mb-3">State 2</p>
+          <h3 class="font-display text-lg font-bold mb-2">Published, no data</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Performance benchmarks show targets with "not enough data yet" messaging. Opportunity cards suggest actions to get the first booking: enable instant book, improve photos, review pricing.
+          </p>
+        </div>
+        <div class="border border-border rounded-xl p-6">
+          <p class="tag text-accent mb-3">State 3</p>
+          <h3 class="font-display text-lg font-bold mb-2">Published, with data</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Full dashboard: booking actions at top, performance stats against targets (acceptance rate vs. 70%, response rate vs. 90%, cancellations vs. max 1/yr), upcoming trip cards with inspection reminders.
+          </p>
+        </div>
+      </div>
+    </section>
+
+   <!-- UI shots -->
+    <section class="mt-18 space-y-6">
+      <div class="reveal">
+        <div class="overflow-hidden rounded-xl">
+          <img src="/img/case-studies/host-dashboard-next-steps.png" alt="Dashboard next steps cards" class="w-full h-auto" loading="lazy" />
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="overflow-hidden rounded-xl">
+          <img src="/img/case-studies/host-dashboard-superhost.png" alt="Superhost progress" class="w-full h-auto" loading="lazy" />
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="overflow-hidden rounded-xl">
+          <img src="/img/case-studies/host-dashboard-earnings.png" alt="Host earnings overview" class="w-full h-auto" loading="lazy" />
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="overflow-hidden rounded-xl">
+          <img src="/img/case-studies/host-dashboard-opportunities.png" alt="Opportunities and actions" class="w-full h-auto" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance targets -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Performance Benchmarks</span>
+      </div>
+      <p class="text-muted leading-relaxed max-w-3xl mb-8">
+        A key part of the redesign was making RVezy's host quality targets visible and persistent. Instead of burying these in a settings page, the dashboard shows them front and centre — always comparing current performance against the target.
+      </p>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <div class="px-6 border border-border rounded-xl" style="padding-top:2.5rem;padding-bottom:2.5rem">
+          <p class="font-display text-5xl font-extrabold text-accent tracking-tight">70%</p>
+          <p class="text-sm text-muted mt-4">Acceptance rate target</p>
+          <p class="text-xs text-faint mt-1">Rolling 1-year window</p>
+        </div>
+        <div class="px-6 border border-border rounded-xl" style="padding-top:2.5rem;padding-bottom:2.5rem">
+          <p class="font-display text-5xl font-extrabold text-accent tracking-tight">90%</p>
+          <p class="text-sm text-muted mt-4">Response rate target</p>
+          <p class="text-xs text-faint mt-1">Replies within 24 hours</p>
+        </div>
+        <div class="px-6 border border-border rounded-xl" style="padding-top:2.5rem;padding-bottom:2.5rem">
+          <p class="font-display text-5xl font-extrabold text-accent tracking-tight">≤ 1</p>
+          <p class="text-sm text-muted mt-4">Cancellations per year</p>
+          <p class="text-xs text-faint mt-1">Maximum allowed</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiment -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Validation</span>
+      </div>
+      <div class="max-w-3xl space-y-4 text-muted leading-relaxed">
+        <p>
+          We launched the dashboard behind a 50/50 A/B test, split by user ID to ensure clean data. The experiment tracked separately on iOS and Android, triggered when a host landed on their dashboard. We measured acceptance rate, response rate, onboarding completion, and overall engagement.
+        </p>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="mt-18 px-8 md:px-14 py-14 bg-ink text-surface rounded-2xl reveal">
+      <p class="tag text-faint mb-4">Results</p>
+      <h2 class="font-display text-section text-surface mb-10">The numbers.</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">+22%</p>
+          <p class="text-surface/60 text-sm mt-2">Increase in host dashboard engagement (weekly active hosts)</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">$1.5M</p>
+          <p class="text-surface/60 text-sm mt-2">Incremental GMV attributed to faster booking acceptance</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">−31%</p>
+          <p class="text-surface/60 text-sm mt-2">Reduction in "what do I do next?" support tickets</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="mt-18 reveal max-w-3xl">
+      <h2 class="font-display text-xl font-bold mb-4">Reflection</h2>
+      <p class="text-muted leading-relaxed">
+        The biggest shift was reframing the dashboard from "here's what happened" to "here's what you need to do." The notification card model — where cards appear, resolve, and disappear based on business logic — turned a passive screen into the primary driver of host behavior. The multi-state design was the hardest part: making the dashboard feel valuable whether a host has zero bookings or a hundred.
+      </p>
+    </section>
+
+    <!-- Nav -->
+    <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
+      <a href="/case-studies/date-night-app.html" class="text-sm text-muted hover:text-ink transition-colors">← Date Night App</a>
+      <a href="/case-studies/pay-in-full.html" class="text-sm text-muted hover:text-ink transition-colors">Pay-in-Full Pricing →</a>
+    </nav>
+
+  </article>
+
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

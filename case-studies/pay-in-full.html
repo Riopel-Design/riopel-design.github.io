@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay-in-Full Pricing — Robert Riopel</title>
+  <meta name="description" content="Designing a new checkout payment option that generated $500K in its first month at RVezy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+</head>
+<body class="bg-surface text-ink font-body">
+  <div id="nav-placeholder"></div>
+
+  <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
+
+    <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
+      <p class="tag">Case Study · 2025</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+    </div>
+
+    <header class="mt-12 reveal">
+      <h1 class="font-display text-section md:text-hero max-w-4xl">Pay-in-Full Pricing</h1>
+      <p class="mt-5 text-muted text-lg leading-relaxed max-w-2xl">
+        A new checkout option that lets guests pay everything upfront at a discount — converting price-sensitive browsers into confirmed bookings and generating $500K in month one.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <span class="metric">$500K month one</span>
+        <span class="metric">$2.4M projected annual</span>
+        <span class="metric">5-week design sprint</span>
+      </div>
+    </header>
+
+    <div class="mt-14 reveal">
+      <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+        <span class="tag">Hero image — Checkout flow with pay-in-full option</span>
+      </div>
+    </div>
+
+    <!-- The bet -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">The Bet</span>
+      </div>
+      <div class="max-w-3xl space-y-5 text-muted leading-relaxed">
+        <p>
+          RVezy bookings are expensive — average order value hovers around $1,800. The standard payment model splits this into a deposit at booking and a balance due later. But analysis showed a segment of guests who wanted simplicity: one payment, done, don't think about it again.
+        </p>
+        <p>
+          The hypothesis was straightforward: <strong class="text-ink">offer a small discount (3–5%) for paying the full amount upfront</strong>. Guests get a price break and peace of mind. RVezy gets immediate cash flow instead of chasing balances. Hosts get faster payouts.
+        </p>
+        <p>
+          The challenge wasn't the concept — it was the complexity. RVezy's checkout already handled deposits, insurance add-ons, damage protection, service fees, and cancellation policies. Introducing a third payment path meant untangling all of those interactions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Complexity map -->
+    <section class="mt-18 reveal">
+      <div class="aspect-[2/1] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+        <span class="tag">Image — Edge case mapping / payment flow diagram</span>
+      </div>
+      <p class="mt-3 text-xs text-faint text-center">Mapping every edge case: deposits, insurance, cancellation refunds, host payouts, and service fee recalculation</p>
+    </section>
+
+    <!-- Design decisions — big stat callouts -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Design Decisions</span>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-border reveal">
+      <div class="bg-surface p-8 md:p-10">
+        <p class="font-display text-3xl font-extrabold text-accent mb-3">Decision 1</p>
+        <h3 class="font-display text-lg font-bold mb-2">Show the savings, not the math</h3>
+        <p class="text-sm text-muted leading-relaxed">
+          Early prototypes showed the full pricing breakdown: original total, discount percentage, new total. Guest testing revealed this felt like a negotiation. The final design shows the discounted price as the primary number with a simple "You save $X" line. One number, one benefit.
+        </p>
+      </div>
+      <div class="bg-surface p-8 md:p-10">
+        <p class="font-display text-3xl font-extrabold text-accent mb-3">Decision 2</p>
+        <h3 class="font-display text-lg font-bold mb-2">Default to split, upsell full</h3>
+        <p class="text-sm text-muted leading-relaxed">
+          We debated defaulting to pay-in-full. Data showed that a higher-looking upfront price increased cart abandonment for budget guests. The final approach: default to the familiar split payment, with the full-pay option surfaced as a highlighted alternative with the discount visible.
+        </p>
+      </div>
+      <div class="bg-surface p-8 md:p-10">
+        <p class="font-display text-3xl font-extrabold text-accent mb-3">Decision 3</p>
+        <h3 class="font-display text-lg font-bold mb-2">Cancel gracefully</h3>
+        <p class="text-sm text-muted leading-relaxed">
+          The hardest edge case: what happens when a pay-in-full booking gets cancelled? The guest paid a discounted rate, but the refund policy is based on the original rate. I worked with legal and engineering to design a refund flow that's fair to both sides — refunding the actual amount paid, proportional to the cancellation policy.
+        </p>
+      </div>
+      <div class="bg-surface p-8 md:p-10">
+        <p class="font-display text-3xl font-extrabold text-accent mb-3">Decision 4</p>
+        <h3 class="font-display text-lg font-bold mb-2">Host-side transparency</h3>
+        <p class="text-sm text-muted leading-relaxed">
+          Hosts see that a guest chose pay-in-full, and their payout timeline reflects the immediate payment. This was a deliberate choice to build trust — hosts know the guest is financially committed, which reduces cancellation anxiety.
+        </p>
+      </div>
+    </div>
+
+    <!-- UI shots -->
+    <section class="mt-18 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+        <div class="aspect-[3/4] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Mobile — Option selection</span>
+        </div>
+        <div class="aspect-[3/4] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Mobile — Payment summary</span>
+        </div>
+        <div class="aspect-[3/4] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Mobile — Confirmation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="mt-22 px-8 md:px-14 py-14 bg-ink text-surface rounded-2xl reveal">
+      <p class="tag text-faint mb-4">Results</p>
+      <h2 class="font-display text-section text-surface mb-10">$500K in 30 days.</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">$500K</p>
+          <p class="text-surface/60 text-sm mt-2">Incremental revenue in the first month from pay-in-full bookings</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">$2.4M</p>
+          <p class="text-surface/60 text-sm mt-2">Projected annualized revenue based on adoption rate and seasonality</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">18%</p>
+          <p class="text-surface/60 text-sm mt-2">Of eligible bookings chose pay-in-full in the first month</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">0</p>
+          <p class="text-surface/60 text-sm mt-2">Payment-related support tickets in the first 30 days</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
+      <a href="/case-studies/host-dashboard.html" class="text-sm text-muted hover:text-ink transition-colors">← Host Dashboard</a>
+      <a href="/case-studies/host-onboarding.html" class="text-sm text-muted hover:text-ink transition-colors">Host Onboarding →</a>
+    </nav>
+
+  </article>
+
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

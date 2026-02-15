@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Figma Plugin — Robert Riopel</title>
+  <meta name="description" content="Building a Figma plugin that generates production-ready design components from natural language prompts, synced with the live design system." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+</head>
+<body class="bg-surface text-ink font-body">
+  <div id="nav-placeholder"></div>
+
+  <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
+
+    <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
+      <p class="tag">Case Study · 2025</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+    </div>
+
+    <header class="mt-12 reveal">
+      <h1 class="font-display text-section md:text-hero max-w-4xl">AI Figma Plugin</h1>
+      <p class="mt-5 text-muted text-lg leading-relaxed max-w-2xl">
+        A prompt-driven Figma plugin that generates production-ready UI components from natural language — synced 1:1 with the coded design system so anyone on the team can design on-brand without being a designer.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <span class="metric">Prompt → Component</span>
+        <span class="metric">Design system synced</span>
+        <span class="metric">Designed + Developed</span>
+      </div>
+    </header>
+
+    <div class="mt-14 reveal">
+      <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+        <span class="tag">Hero image — Plugin interface in Figma</span>
+      </div>
+    </div>
+
+    <!-- The idea -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">The Idea</span>
+      </div>
+      <div class="max-w-3xl space-y-5 text-muted leading-relaxed">
+        <p>
+          As the sole designer at RVezy, I'm a bottleneck. PMs need mockups for stakeholder alignment. Engineers need component specs for edge cases. Marketing needs landing page layouts. Every request flows through me.
+        </p>
+        <p>
+          The question: <strong class="text-ink">what if anyone could generate an on-brand Figma component by describing what they need in plain English?</strong> Not a generic AI design tool — one that knows our exact design system, our tokens, our component library, our visual language.
+        </p>
+        <p>
+          So I built it.
+        </p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="mt-22">
+      <div class="section-divider reveal mb-8">
+        <span class="tag">How It Works</span>
+      </div>
+
+      <!-- Flow visualization -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-border reveal">
+        <div class="bg-surface p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+            <span class="font-display font-extrabold text-accent text-xl">1</span>
+          </div>
+          <h3 class="font-display text-lg font-bold mb-2">Describe</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            User types a natural language prompt: "Create a booking confirmation card with check-in date, guest name, and a cancel button"
+          </p>
+        </div>
+        <div class="bg-surface p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+            <span class="font-display font-extrabold text-accent text-xl">2</span>
+          </div>
+          <h3 class="font-display text-lg font-bold mb-2">Generate</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Claude processes the prompt against the component registry — matching to existing patterns, applying correct tokens, and generating Figma-native output
+          </p>
+        </div>
+        <div class="bg-surface p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+            <span class="font-display font-extrabold text-accent text-xl">3</span>
+          </div>
+          <h3 class="font-display text-lg font-bold mb-2">Render</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            The component appears directly on the Figma canvas — correct colors, typography, spacing, auto-layout. Editable like any native Figma element.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="mt-18 space-y-6">
+      <div class="reveal">
+        <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Image — Plugin UI with prompt input</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+        <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Generated component — Card</span>
+        </div>
+        <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+          <span class="tag">Generated component — Form</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Under the Hood</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Component registry</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            The plugin's intelligence comes from a comprehensive registry of 30+ components, each documented with properties, variants, color mappings, spacing rules, and usage context. When Claude receives a prompt, it matches against this registry to determine which components to compose and how to configure them.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Claude API integration</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Prompts are sent to Claude's API with the full component registry as context. The response is structured JSON that maps directly to Figma's plugin API — createFrame, createText, setFills. This isn't screenshot-to-code; it's semantic generation of native Figma objects.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Multiple interaction modes</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            The plugin supports different workflows: quick generation from a prompt, iteration on an existing selection ("make this button larger and add an icon"), and a chat mode for collaborative exploration of design options.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">1:1 code sync</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Because the registry is derived from the same Tailwind config that powers production, generated components use the exact same tokens. What you see in Figma is what gets built. No translation layer, no drift.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="mt-22 px-8 md:px-14 py-14 bg-ink text-surface rounded-2xl reveal">
+      <p class="tag text-faint mb-4">Impact</p>
+      <h2 class="font-display text-section text-surface mb-6">Scaling design beyond the designer.</h2>
+      <p class="text-surface/60 text-base leading-relaxed max-w-2xl mb-10">
+        This plugin doesn't replace the designer — it scales design thinking to the whole team. PMs can mock up ideas before requesting design time. Engineers can generate specs for edge cases. The design system stops being a reference doc and becomes a generative tool.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">30+</p>
+          <p class="text-surface/60 text-sm mt-2">Components in the registry with full metadata</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">3</p>
+          <p class="text-surface/60 text-sm mt-2">Interaction modes: generate, iterate, explore</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
+      <a href="/case-studies/design-system.html" class="text-sm text-muted hover:text-ink transition-colors">← Design System</a>
+      <a href="/case-studies/date-night-app.html" class="text-sm text-muted hover:text-ink transition-colors">Date Night App →</a>
+    </nav>
+  </article>
+
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

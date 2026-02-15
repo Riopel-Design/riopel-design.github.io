@@ -1,14 +1,11 @@
 {
   "name": "riopel-design.github.io",
   "version": "1.0.0",
-  "description": "Workspace",
-  "main": "index.js",
+  "description": "Robert Riopel — Portfolio",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tailwindcss -i src/input.css -o css/style.css --minify",
+    "watch": "npx tailwindcss -i src/input.css -o css/style.css --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   }

@@ -3,19 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Work — Robert Riopel</title>
+  <title>About — Robert Riopel</title>
+  <meta name="description" content="Product designer, systems builder, and AI toolmaker based in Ottawa." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/script.js" defer></script>
 </head>
 
-<body>
+<body class="bg-surface text-ink font-body">
 
-  <!-- Nav will be injected here -->
   <div id="nav-placeholder"></div>
 
-  <main>
-    <!-- Your content goes here -->
-  </main>
+  <!-- Header -->
+  <header class="px-8 md:px-12 pt-16 sm:pt-22 md:pt-26 pb-16">
+    <div class="max-w-7xl mx-auto reveal">
+      <p class="tag mb-5">About</p>
+      <h1 class="font-display text-hero max-w-4xl">Robert Riopel.</h1>
+    </div>
+  </header>
+
+  <!-- Bio -->
+  <section class="px-8 md:px-12 pb-22">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-20">
+
+      <!-- Left: photo + quick facts -->
+      <div class="reveal">
+        <div class="aspect-[3/4] bg-gradient-to-br from-border to-faint/20 rounded-xl mb-8 flex items-center justify-center">
+          <span class="text-5xl opacity-20">📷</span>
+        </div>
+        <div class="space-y-5 text-sm">
+          <div>
+            <p class="tag mb-1">Location</p>
+            <p class="text-ink font-medium">Ottawa, ON &rarr; Vienna, AT</p>
+          </div>
+          <div>
+            <p class="tag mb-1">Languages</p>
+            <p class="text-ink font-medium">English · French</p>
+          </div>
+          <div>
+            <p class="tag mb-1">Currently</p>
+            <p class="text-ink font-medium">Senior Product Designer at Ottawa based tech startup</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: narrative -->
+      <div class="reveal space-y-6 text-muted text-base leading-relaxed max-w-2xl">
+        <p class="text-ink text-lg sm:text-xl leading-relaxed font-medium">
+          I'm the sole designer at Canada's largest RV rental marketplace. I own everything visual: product UX, UI, design systems, lifecycle campaigns, marketing, and brand.
+        </p>
+        <p>
+          In the past three years, my work has contributed over $8M in measurable business impact, helping the company move from a $6M deficit to $1.5M EBITDA positive. I don't design for portfolios — I design for outcomes, and then measure them.
+        </p>
+        <p>
+          I also build tools. I wrote an AI-powered Figma plugin that generates on-brand components from natural language, synced 1:1 with our coded Tailwind design system. Before that, I built the design system itself using OKLCH color tokens, Vue components, shared typography and spacing scales.
+        </p>
+        <p>
+          I studied Graphic Design (Advanced Diploma) and earned a Bachelor of Design, developing skills across visual systems, typography, UX fundamentals, prototyping, and digital media.
+        </p>
+        <p>
+          Outside of work, I ship side projects. Most recently a React Native dating app taken from concept to Beta, and AI-generated video campaigns. I learn by building.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How I work -->
+  <section class="px-8 md:px-12 py-22 bg-ink text-surface">
+    <div class="max-w-7xl mx-auto">
+
+      <div class="reveal mb-14">
+        <p class="tag text-faint mb-4">Capabilities</p>
+        <h2 class="font-display text-section text-surface">How I work.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 reveal-group">
+
+        <div class="reveal-child">
+          <h3 class="text-sm font-semibold text-surface mb-3 uppercase tracking-widest">Design & Craft</h3>
+          <p class="text-sm text-surface/60 leading-relaxed">
+            Figma, prototyping, interaction design, visual systems, responsive web & native mobile, illustration, motion
+          </p>
+        </div>
+
+        <div class="reveal-child">
+          <h3 class="text-sm font-semibold text-surface mb-3 uppercase tracking-widest">Strategy & Growth</h3>
+          <p class="text-sm text-surface/60 leading-relaxed">
+            Conversion optimization, A/B testing, lifecycle design, SEO, data-informed iteration, stakeholder alignment
+          </p>
+        </div>
+
+        <div class="reveal-child">
+          <h3 class="text-sm font-semibold text-surface mb-3 uppercase tracking-widest">Technology & AI</h3>
+          <p class="text-sm text-surface/60 leading-relaxed">
+            Figma plugins, Claude API, React Native, Tailwind CSS, Vue.js, Supabase, AI-assisted design workflows
+          </p>
+        </div>
+
+        <div class="reveal-child">
+          <h3 class="text-sm font-semibold text-surface mb-3 uppercase tracking-widest">Leadership</h3>
+          <p class="text-sm text-surface/60 leading-relaxed">
+            Cross-functional collaboration, design ops, mentoring co-op designers, executive presentations, roadmap influence
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="px-8 md:px-12 py-22">
+    <div class="max-w-7xl mx-auto reveal">
+      <p class="tag mb-4">Get in touch</p>
+      <h2 class="font-display text-section max-w-2xl mb-6">
+        Let's talk about building<br class="hidden sm:block" /> something that <span class="italic text-accent">matters.</span>
+      </h2>
+      <p class="text-muted text-base max-w-lg mb-10 leading-relaxed">
+        Open to conversations about product design roles, AI tooling, or interesting problems.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="mailto:robert@riopel.design"
+           class="group inline-flex items-center gap-3 bg-ink text-surface text-sm font-semibold uppercase tracking-widest py-3.5 px-8 rounded-full hover:bg-accent transition-colors duration-300">
+          Send an email
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-ink border border-border py-3.5 px-8 rounded-full hover:border-ink transition-colors duration-300">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>

@@ -2,66 +2,189 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Blob & Hero utilities ---------- */
-@layer utilities {
-  #hero {
-    isolation: isolate;
+/* ============================
+   BASE — the ground rules
+   ============================ */
+@layer base {
+  html {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    color: #141211;
+    background-color: #F5F0EB;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  #hero::after {
+  ::selection {
+    background-color: #C2410C;
+    color: #F5F0EB;
+  }
+
+  /* Smooth scrollbar on WebKit */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D6CEC6; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #A69F98; }
+}
+
+/* ============================
+   COMPONENTS — reusable pieces
+   ============================ */
+@layer components {
+
+  /* --- Nav --- */
+  .nav-link {
+    position: relative;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #6B6560;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color 0.3s ease;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: #141211;
+  }
+
+  /* --- Scroll reveal --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children when parent becomes visible */
+  .reveal-group.visible > .reveal-child {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-child {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-child:nth-child(1) { transition-delay: 0.05s; }
+  .reveal-child:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-child:nth-child(3) { transition-delay: 0.15s; }
+  .reveal-child:nth-child(4) { transition-delay: 0.2s; }
+  .reveal-child:nth-child(5) { transition-delay: 0.25s; }
+  .reveal-child:nth-child(6) { transition-delay: 0.3s; }
+  .reveal-child:nth-child(7) { transition-delay: 0.35s; }
+  .reveal-child:nth-child(8) { transition-delay: 0.4s; }
+
+  /* --- Project row (editorial list, not cards) --- */
+  .project-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #D6CEC6;
+    text-decoration: none;
+    transition: background-color 0.35s ease;
+  }
+  @media (min-width: 768px) {
+    .project-row {
+      grid-template-columns: 1fr 2fr auto;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 2.5rem 0;
+    }
+  }
+  .project-row:hover {
+    background-color: rgba(194, 65, 12, 0.04);
+  }
+  .project-row:hover .project-title {
+    color: #C2410C;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    color: #141211;
+    line-height: 1.15;
+    transition: color 0.3s ease;
+  }
+
+  /* --- Tag --- */
+  .tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #A69F98;
+  }
+
+  /* --- Metric --- */
+  .metric {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #C2410C;
+    letter-spacing: -0.01em;
+  }
+
+  /* --- Divider with label --- */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3rem 0 1.5rem;
+  }
+  .section-divider::after {
     content: '';
+    flex: 1;
+    height: 1px;
+    background: #D6CEC6;
+  }
+
+  /* --- Hover image peek (for project rows) --- */
+  .peek-container {
+    position: relative;
+    overflow: visible;
+  }
+  .peek-img {
     position: absolute;
-    inset: 0;
-    z-index: 5;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0.9);
+    width: 280px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    opacity: 0;
     pointer-events: none;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(255, 255, 255, 0.7) 0%,
-        transparent 60%);
-    mix-blend-mode: screen;
-    transition: background 0.15s ease-out;
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+    box-shadow: 0 16px 48px -8px rgba(20, 18, 17, 0.2);
   }
-
-  .blob {
-    @apply absolute rounded-full opacity-25 saturate-150 blur-3xl;
-    width: var(--size);
-    height: var(--size);
-    top: var(--y);
-    left: var(--x);
-    animation: blob-float var(--d) ease-in-out infinite alternate;
+  .project-row:hover .peek-img {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
   }
+}
 
-  @keyframes blob-float {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-    }
-
-    100% {
-      transform: translate3d(60px, -40px, 0) scale(1.1) rotate(20deg);
-    }
-  }
-
-  /* ---------- Game styles ---------- */
-  #game {
-    font-size: 0;
-  }
-
+@layer utilities {
+  /* --- Game styles (preserved) --- */
+  #game { font-size: 0; }
   .cell {
     width: calc(100vh / 20);
-    /* adjust 20 to match or exceed max rows */
     height: calc(100vh / 20);
     background-color: #1e293b;
     image-rendering: pixelated;
   }
-
-
-  .cell-wall {
-    background-color: #4b5563;
-  }
-
-  .cell-path {
-    background-color: #9ca3af;
-  }
-
+  .cell-wall  { background-color: #4b5563; }
+  .cell-path  { background-color: #9ca3af; }
   .cell-player {
     background-color: transparent;
     background-image: url('/img/hamburger.png');
@@ -69,7 +192,6 @@
     background-position: center;
     background-repeat: no-repeat;
   }
-
   .cell-key {
     background-color: transparent;
     background-image: url('/img/key.png');
@@ -77,7 +199,6 @@
     background-position: center;
     background-repeat: no-repeat;
   }
-
   .cell-door {
     background-color: transparent;
     background-image: url('/img/door.png');
@@ -85,7 +206,6 @@
     background-position: center;
     background-repeat: no-repeat;
   }
-
   .cell-chest {
     background-color: transparent;
     background-image: url('/img/chest.png');

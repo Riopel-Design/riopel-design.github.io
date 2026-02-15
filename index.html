@@ -1,27 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robert Riopel — Portfolio</title>
+  <title>Robert Riopel — Product Designer</title>
+  <meta name="description" content="Senior Product Designer. $8M+ measurable impact across conversion, retention, and monetization." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/script.js" defer></script>
 </head>
 
-<body class="bg-white text-gray-900">
-  <!-- Nav -->
-  <div id="nav-placeholder"></div>
+<body class="bg-surface text-ink font-body">
 
-  <!-- Hero -->
+  <div id="nav-placeholder"></div>
   <div id="hero-placeholder"></div>
 
-  <!-- Minecraft-style banner -->
-  <section class="w-full mt-[-2rem] overflow-hidden">
-    <img src="/img/banner.png"
-         alt="Minecraft-style teaser banner"
-         class="w-full h-auto block select-none pointer-events-none" />
-  </section>
-</body>
+  <!-- ====== Selected Work ====== -->
+  <section class="px-6 md:px-10 pb-26 md:pb-30">
+    <div class="max-w-7xl mx-auto">
 
+      <div class="section-divider reveal">
+        <span class="tag">Selected Work</span>
+      </div>
+
+      <div class="reveal-group">
+
+        <a href="/work.html#host-dashboard" class="project-row reveal-child">
+          <span class="tag self-center">2024</span>
+          <div>
+            <p class="project-title">Host Dashboard Redesign</p>
+            <p class="text-muted text-sm mt-1.5">Surfacing actionable data to drive host engagement and revenue</p>
+          </div>
+          <div class="hidden md:flex gap-4">
+            <span class="metric">+22%</span>
+            <span class="metric">$1.5M</span>
+          </div>
+        </a>
+
+        <a href="/work.html#pay-in-full" class="project-row reveal-child">
+          <span class="tag self-center">2025</span>
+          <div>
+            <p class="project-title">Pay-in-Full Pricing</p>
+            <p class="text-muted text-sm mt-1.5">New payment model unlocking immediate revenue at checkout</p>
+          </div>
+          <div class="hidden md:flex gap-4">
+            <span class="metric">$500K</span>
+            <span class="metric">$2.4M proj.</span>
+          </div>
+        </a>
+
+        <a href="/work.html#onboarding" class="project-row reveal-child">
+          <span class="tag self-center">2022–23</span>
+          <div>
+            <p class="project-title">Host Onboarding Overhaul</p>
+            <p class="text-muted text-sm mt-1.5">Rebuilding the host funnel from first touch to first booking</p>
+          </div>
+          <div class="hidden md:flex gap-4">
+            <span class="metric">+27%</span>
+            <span class="metric">$3.4M</span>
+          </div>
+        </a>
+
+        <a href="/work.html#figma-plugin" class="project-row reveal-child">
+          <span class="tag self-center">2025</span>
+          <div>
+            <p class="project-title">AI Figma Plugin</p>
+            <p class="text-muted text-sm mt-1.5">Prompt-to-component generation synced with the live design system</p>
+          </div>
+          <div class="hidden md:flex gap-4">
+            <span class="metric">AI → Figma</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="reveal mt-10">
+        <a href="/work.html" class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-ink hover:text-accent transition-colors duration-300">
+          All projects
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== Brief About Strip ====== -->
+  <section class="px-6 md:px-10 py-22 md:py-26 bg-ink text-surface">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-10 md:gap-20 items-start reveal">
+
+      <div>
+        <p class="tag text-faint mb-4">About</p>
+        <h2 class="font-display text-section text-surface">The short version.</h2>
+      </div>
+
+      <div class="space-y-5 text-surface/70 text-base leading-relaxed max-w-2xl">
+        <p>
+          I'm the sole product designer at Canada's largest RV rental marketplace. I own UX, UI, design systems, lifecycle, brand, and marketing design. My work helped move the company from a $6M deficit to profitability.
+        </p>
+        <p>
+          I also build tools. My AI-powered Figma plugin generates on-brand components from natural language, synced 1:1 with our coded design system.
+        </p>
+        <a href="/about.html" class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent hover:text-surface transition-colors duration-300 mt-2">
+          Read more
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== Footer ====== -->
+  <footer class="px-6 md:px-10 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
 </html>

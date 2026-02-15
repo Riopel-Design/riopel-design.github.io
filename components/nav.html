@@ -1,96 +1,31 @@
-<nav class="w-full sticky top-0 z-50 bg-white border-b border-gray-200 dark:bg-primary-500 dark:border-gray-700">
-  <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+<nav class="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border/50">
+  <div class="max-w-7xl mx-auto px-8 md:px-12 py-6 flex justify-between items-center">
 
-    <!-- Bubble RR Logo -->
-    <a href="/" class="flex items-center space-x-3 select-none">
-      <span class="font-black text-3xl text-blue-600 drop-shadow-md tracking-wide
-                   rounded-full px-4 py-1 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300
-                   hover:animate-[wiggle_0.7s_ease-in-out] cursor-pointer">
-        RR
-      </span>
+    <a href="/" class="font-display font-extrabold text-2xl tracking-tight text-ink hover:text-accent transition-colors duration-300">
+      RR
     </a>
 
-    <!-- Nav Links (Desktop) -->
-    <div class="hidden md:flex gap-6 text-lg font-semibold items-center">
-      <a href="/work.html" class="group relative nav-link text-black dark:text-white">Work</a>
-      <a href="/about.html" class="group relative nav-link text-black dark:text-white">About</a>
-      <a href="/fun.html" class="group relative nav-link text-black dark:text-white">Fun</a>
+    <div class="hidden md:flex gap-8 items-center">
+      <a href="/work.html" class="nav-link">Work</a>
+      <a href="/about.html" class="nav-link">About</a>
+      <a href="/fun.html" class="nav-link">Fun</a>
+      <a href="mailto:robert@riopel.design" class="text-xs font-semibold uppercase tracking-widest text-surface bg-ink px-4 py-2 rounded-full hover:bg-accent transition-colors duration-300">
+        Contact
+      </a>
     </div>
 
-    <!-- Hamburger (Mobile) -->
-    <button id="navToggle" class="md:hidden text-3xl hover:text-blue-600 transition-transform duration-200">
-      ☰
+    <button id="navToggle" class="md:hidden text-ink" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="4" y1="7" x2="20" y2="7" style="transition: all 0.3s ease"/>
+        <line x1="4" y1="17" x2="20" y2="17" style="transition: all 0.3s ease"/>
+      </svg>
     </button>
   </div>
 
-  <!-- Mobile Menu (hidden by default) -->
-  <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 gap-4 text-lg font-medium">
-    <a href="/work.html" class="group relative nav-link text-black dark:text-white">Work</a>
-    <a href="/about.html" class="group relative nav-link text-black dark:text-white">About</a>
-    <a href="/fun.html" class="group relative nav-link text-black dark:text-white">Fun</a>
+  <div id="mobileMenu" class="md:hidden hidden px-8 pb-6 space-y-4">
+    <a href="/work.html" class="block nav-link py-1">Work</a>
+    <a href="/about.html" class="block nav-link py-1">About</a>
+    <a href="/fun.html" class="block nav-link py-1">Fun</a>
+    <a href="mailto:robert@riopel.design" class="block nav-link py-1">Contact</a>
   </div>
 </nav>
-
-<!-- Wiggle keyframes & underline animation via Tailwind’s arbitrary values -->
-<style>
-  @keyframes wiggle {
-    0%, 100% {
-      transform: rotate(-3deg) scale(1);
-    }
-    20% {
-      transform: rotate(5deg) scale(1.1) skewX(-5deg);
-    }
-    40% {
-      transform: rotate(-2deg) scale(1.07) skewX(3deg);
-    }
-    60% {
-      transform: rotate(2deg) scale(1.12) skewX(-2deg);
-    }
-    80% {
-      transform: rotate(-1deg) scale(1.09) skewX(4deg);
-    }
-  }
-</style>
-
-<script>
-  // Mobile nav toggle
-  document.addEventListener('DOMContentLoaded', function () {
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (navToggle && mobileMenu) {
-      navToggle.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-      });
-    }
-  });
-</script>
-
-<!-- Tailwind plugin for underline animation using pseudo elements -->
-<style>
-  .nav-link {
-    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .nav-link::after {
-    content: '';
-    display: block;
-    margin: 0 auto;
-    width: 0;
-    height: 3px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #3b82f6, #ef4444, #eab308 95%);
-    transition: width 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  }
-
-  .nav-link:hover,
-  .nav-link:focus {
-    color: #ef4444;
-    transform: scale(1.13) skewX(-6deg);
-    animation: wiggle 0.7s;
-  }
-
-  .nav-link:hover::after,
-  .nav-link:focus::after {
-    width: 70%;
-  }
-</style>

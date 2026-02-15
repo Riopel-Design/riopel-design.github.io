@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind Design System — Robert Riopel</title>
+  <meta name="description" content="Building a Tailwind CSS design system as the single source of truth between Figma and production code at RVezy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+</head>
+<body class="bg-surface text-ink font-body">
+  <div id="nav-placeholder"></div>
+
+  <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
+
+    <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
+      <p class="tag">Case Study · 2024–Present</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+    </div>
+
+    <header class="mt-12 reveal">
+      <h1 class="font-display text-section md:text-hero max-w-4xl">Tailwind Design System</h1>
+      <p class="mt-5 text-muted text-lg leading-relaxed max-w-2xl">
+        A Tailwind CSS design system that eliminates the gap between Figma and production — OKLCH color tokens, Vue components, and shared scales that make design-to-dev handoff feel like a non-event.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <span class="metric">50% faster handoff</span>
+        <span class="metric">Single source of truth</span>
+        <span class="metric">30+ components</span>
+      </div>
+    </header>
+
+    <div class="mt-14 reveal">
+      <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+        <span class="tag">Hero image — Design system overview</span>
+      </div>
+    </div>
+
+    <!-- Why -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Why Build This</span>
+      </div>
+      <div class="max-w-3xl space-y-5 text-muted leading-relaxed">
+        <p>
+          RVezy's product had grown organically for years. Different features had different visual languages — spacing was inconsistent, colors drifted between hex values, and the same button existed in four slightly different implementations. Every feature I designed required re-establishing basic rules.
+        </p>
+        <p>
+          As the sole designer working with multiple engineering squads, I needed a system that <strong class="text-ink">spoke both languages</strong>. Designers think in tokens, variants, and compositions. Engineers think in utility classes, props, and state. The system had to bridge both.
+        </p>
+      </div>
+    </section>
+
+    <!-- Principles -->
+    <section class="mt-22">
+      <div class="section-divider reveal mb-8">
+        <span class="tag">Principles</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+        <div class="border-t-2 border-accent pt-6">
+          <h3 class="font-display text-lg font-bold mb-2">Code is the source</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Figma reflects code, not the other way around. Color tokens, spacing scales, and typography are defined in the Tailwind config first, then mirrored to Figma. This eliminates the "which version is right?" problem.
+          </p>
+        </div>
+        <div class="border-t-2 border-accent pt-6">
+          <h3 class="font-display text-lg font-bold mb-2">OKLCH everywhere</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            All colors use OKLCH for perceptual uniformity. A "blue-500" and "green-500" have the same perceived lightness. This makes the palette predictable across contexts and eliminates the need for manual adjustments.
+          </p>
+        </div>
+        <div class="border-t-2 border-accent pt-6">
+          <h3 class="font-display text-lg font-bold mb-2">Composition over configuration</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Components are small and composable rather than monolithic with dozens of props. A card is a surface + padding + border, not a Card component with 15 variants. Engineers combine primitives instead of learning a proprietary API.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Components showcase -->
+    <section class="mt-22">
+      <div class="section-divider reveal mb-8">
+        <span class="tag">Components</span>
+      </div>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+          <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+            <span class="tag">Color tokens — OKLCH scale</span>
+          </div>
+          <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+            <span class="tag">Typography scale</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+          <div class="aspect-square bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+            <span class="tag">Buttons</span>
+          </div>
+          <div class="aspect-square bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+            <span class="tag">Form inputs</span>
+          </div>
+          <div class="aspect-square bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
+            <span class="tag">Cards & surfaces</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical details -->
+    <section class="mt-22 reveal">
+      <div class="section-divider mb-8">
+        <span class="tag">Technical Architecture</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Tailwind v4 + Vue.js</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            The system runs on Tailwind CSS v4 with custom theme configuration. Vue components wrap common patterns with sensible defaults. The Tailwind config file <em>is</em> the design token source — colors, spacing, typography, shadows, and border radii all live there.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-bold mb-2">Component registry</h3>
+          <p class="text-sm text-muted leading-relaxed">
+            Every component is documented in a registry that lists its properties, variants, color mappings, and usage guidelines. This registry powers both the documentation site and the AI Figma plugin — the same metadata that helps designers understand a component also helps AI generate it correctly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="mt-22 px-8 md:px-14 py-14 bg-ink text-surface rounded-2xl reveal">
+      <p class="tag text-faint mb-4">Impact</p>
+      <h2 class="font-display text-section text-surface mb-10">System-level leverage.</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">50%</p>
+          <p class="text-surface/60 text-sm mt-2">Faster design-to-development handoff</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">30+</p>
+          <p class="text-surface/60 text-sm mt-2">Components documented and maintained</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-accent">0</p>
+          <p class="text-surface/60 text-sm mt-2">"Which version is right?" conversations since launch</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
+      <a href="/case-studies/seo-ai-landing-pages.html" class="text-sm text-muted hover:text-ink transition-colors">← SEO & AI Pages</a>
+      <a href="/case-studies/ai-figma-plugin.html" class="text-sm text-muted hover:text-ink transition-colors">AI Figma Plugin →</a>
+    </nav>
+  </article>
+
+  <footer class="border-t border-border px-8 md:px-12 py-10">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-faint uppercase tracking-widest">
+      <p>&copy; 2025 Robert Riopel</p>
+      <div class="flex gap-6">
+        <a href="https://www.linkedin.com/in/robert-riopel" target="_blank" rel="noopener" class="hover:text-ink transition-colors">LinkedIn</a>
+        <a href="mailto:robert@riopel.design" class="hover:text-ink transition-colors">Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
