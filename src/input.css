@@ -148,6 +148,25 @@
     background: #D6CEC6;
   }
 
+  /* --- Case study image — museum paper mat --- */
+  .case-img {
+    background: rgba(255, 255, 255, 0.55);
+    padding: 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.10),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  }
+  .case-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
   /* --- Hover image peek (for project rows) --- */
   .peek-container {
     position: relative;
