@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,22 +7,214 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
-  <script src="js/game.js" defer></script>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/script.js" defer></script>
+  <style>
+    #game-wrapper { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    #game {
+      font-size: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 1px rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    #hud {
+      display: flex; gap: 20px; align-items: center;
+      font-family: 'Inter Tight', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.15em; text-transform: uppercase;
+    }
+    #hud .hud-val { color: rgba(255,255,255,0.8); font-weight: 600; }
+    #hud .hud-val.has-key { color: #facc15; text-shadow: 0 0 8px rgba(250,204,21,0.4); }
+    #hud .hud-val.has-powerup { color: #3b82f6; text-shadow: 0 0 8px rgba(59,130,246,0.4); }
+
+    .cell {
+      display: inline-block; width: 100%; height: 100%;
+      background-size: 70% 70%; background-repeat: no-repeat; background-position: center;
+      transition: background-color 0.12s, box-shadow 0.12s, opacity 0.15s;
+    }
+    .cell-wall { background-color: #1e2433; box-shadow: inset 0 0 4px rgba(0,0,0,0.6); }
+    .cell-path { background-color: #2a3040; }
+    .cell-visited { background-color: #252b3a; }
+    .cell-player {
+      background-color: #C2410C; border-radius: 50%;
+      box-shadow: 0 0 12px rgba(194,65,12,0.6), 0 0 24px rgba(194,65,12,0.2);
+      animation: playerPulse 2s ease-in-out infinite;
+    }
+    .cell-player.powered {
+      background-color: #3b82f6 !important;
+      box-shadow: 0 0 16px rgba(59,130,246,0.8), 0 0 32px rgba(59,130,246,0.3) !important;
+      animation: playerPowered 0.4s ease-in-out infinite !important;
+    }
+    @keyframes playerPulse {
+      0%,100% { box-shadow: 0 0 12px rgba(194,65,12,0.6), 0 0 24px rgba(194,65,12,0.2); }
+      50% { box-shadow: 0 0 18px rgba(194,65,12,0.8), 0 0 36px rgba(194,65,12,0.3); }
+    }
+    @keyframes playerPowered {
+      0%,100% { box-shadow: 0 0 16px rgba(59,130,246,0.8), 0 0 32px rgba(59,130,246,0.3); }
+      50% { box-shadow: 0 0 24px rgba(59,130,246,1), 0 0 48px rgba(59,130,246,0.5); }
+    }
+    .cell-key { background-color: #2a3040; position: relative; }
+    .cell-key::after {
+      content: '🔑'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(8px, 1.8vw, 14px); animation: itemBob 2s ease-in-out infinite;
+    }
+    .cell-door {
+      background-color: #3b2a1a; border: 2px solid #8B6914;
+      box-shadow: inset 0 0 8px rgba(139,105,20,0.3);
+    }
+    .cell-door.unlocked { background-color: #2a3040; border-color: transparent; box-shadow: none; }
+    .cell-chest { background-color: #2a3040; position: relative; }
+    .cell-chest::after {
+      content: '✨'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(8px, 1.8vw, 14px); animation: itemBob 1.5s ease-in-out infinite;
+    }
+    .cell-powerup { background-color: #1a2340; position: relative; }
+    .cell-powerup::after {
+      content: '⚡'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(8px, 1.8vw, 14px); animation: itemBob 0.8s ease-in-out infinite;
+    }
+    .cell-enemy {
+      background-color: #7f1d1d; border-radius: 50%;
+      box-shadow: 0 0 10px rgba(220,38,38,0.5);
+      animation: enemyPulse 1s ease-in-out infinite;
+    }
+    .cell-enemy.scared {
+      background-color: #1d2d6f !important;
+      box-shadow: 0 0 10px rgba(59,130,246,0.5) !important;
+      animation: enemyScared 0.3s ease-in-out infinite !important;
+    }
+    @keyframes enemyPulse {
+      0%,100% { box-shadow: 0 0 10px rgba(220,38,38,0.5); }
+      50% { box-shadow: 0 0 16px rgba(220,38,38,0.8); }
+    }
+    @keyframes enemyScared {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    @keyframes itemBob {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    .cell-fog { background-color: #0a0c12 !important; box-shadow: none !important; border-color: transparent !important; }
+    .cell-fog::after { display: none !important; }
+    .cell-dim { opacity: 0.35; }
+
+    @keyframes shake {
+      0%,100% { transform: translate(0); }
+      20% { transform: translate(-4px, 3px); }
+      40% { transform: translate(4px, -3px); }
+      60% { transform: translate(-3px, -4px); }
+      80% { transform: translate(3px, 4px); }
+    }
+    #game.shake { animation: shake 0.3s ease-out; }
+
+    #touch-controls { display: none; gap: 4px; }
+    @media (max-width: 768px) { #touch-controls { display: grid; } }
+    .touch-btn {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5); font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .touch-btn:active { background: rgba(194,65,12,0.3); border-color: rgba(194,65,12,0.5); transform: scale(0.92); }
+
+    .toast {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background: rgba(194,65,12,0.9); color: #fff; padding: 8px 20px; border-radius: 8px;
+      font-family: 'Inter Tight', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.05em; z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    #level-flash {
+      position: fixed; inset: 0; background: #C2410C; z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    #level-flash.active { opacity: 1; pointer-events: all; }
+    #level-flash h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 48px; color: #fff; }
+
+    #void-teaser {
+      text-align: center;
+      padding: 30px 20px 50px;
+    }
+    #void-teaser p {
+      font-size: 10px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-family: 'Inter Tight', sans-serif;
+    }
+    #void-teaser a {
+      font-family: 'Inter Tight', sans-serif; font-size: 11px;
+      color: rgba(255,255,255,0.12); text-decoration: none;
+      letter-spacing: 0.25em; text-transform: uppercase; transition: all 0.5s;
+      display: inline-block;
+      padding: 10px 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+    }
+    #void-teaser a:hover {
+      color: #ff0055;
+      letter-spacing: 0.4em;
+      text-shadow: 0 0 20px rgba(255,0,85,0.4);
+      border-color: rgba(255,0,85,0.2);
+      background: rgba(255,0,85,0.03);
+    }
+
+    /* Score popup */
+    .score-pop {
+      position: fixed; pointer-events: none; z-index: 150;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px;
+      color: #facc15; text-shadow: 0 0 20px rgba(250,204,21,0.6);
+      animation: scorePop 1s ease-out forwards;
+    }
+    .score-pop.ghost-kill { color: #3b82f6; text-shadow: 0 0 20px rgba(59,130,246,0.6); font-size: 32px; }
+    @keyframes scorePop {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.5); }
+    }
+  </style>
 </head>
 
-<body class="h-full bg-ink text-surface overflow-hidden flex flex-col font-body">
-
+<body class="bg-ink text-surface font-body">
   <div id="nav-placeholder"></div>
+  <div id="level-flash"><h2 id="level-text"></h2></div>
 
-  <main class="flex flex-col items-center justify-center flex-1">
-    <p class="tag text-faint mb-4">Use arrow keys or WASD</p>
-    <div id="game"
-         class="grid grid-cols-[repeat(17,2.5rem)] auto-rows-[2.5rem] gap-[2px] bg-gray-800 p-2 rounded shadow-lg">
+  <main style="max-width:640px;margin:0 auto;padding:24px 20px 0">
+    <div style="text-align:center;margin-bottom:12px">
+      <h1 class="font-display" style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:4px">Escape the Maze</h1>
+      <p style="font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase">Key → Door → Chest · Avoid ghosts · Grab ⚡ to hunt them</p>
     </div>
-    <div id="contact-modal" class="hidden"></div>
+    <div id="game-wrapper">
+      <div id="hud">
+        <div>Lvl <span class="hud-val" id="hud-level">1</span></div>
+        <div>Moves <span class="hud-val" id="hud-moves">0</span></div>
+        <div>Key <span class="hud-val" id="hud-key">✗</span></div>
+        <div>Time <span class="hud-val" id="hud-time">0:00</span></div>
+        <div>Score <span class="hud-val" id="hud-score">0</span></div>
+      </div>
+      <div id="game"></div>
+      <div id="touch-controls" style="grid-template-columns:repeat(3,56px);grid-template-rows:repeat(3,56px);margin-top:8px">
+        <div></div><div class="touch-btn" data-dir="up">↑</div><div></div>
+        <div class="touch-btn" data-dir="left">←</div><div></div><div class="touch-btn" data-dir="right">→</div>
+        <div></div><div class="touch-btn" data-dir="down">↓</div><div></div>
+      </div>
+    </div>
   </main>
 
+  <div id="void-teaser">
+    <p>Bored of mazes?</p>
+    <a href="/fun2.html">Enter the void →</a>
+  </div>
+
+  <script src="/js/game.js"></script>
 </body>
 </html>

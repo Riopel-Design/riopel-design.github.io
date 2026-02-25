@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Figma Plugin — Robert Riopel</title>
+  <title>AI Figma Plugin &mdash; Robert Riopel</title>
   <meta name="description" content="Building a Figma plugin that generates production-ready design components from natural language prompts, synced with the live design system." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,8 +17,8 @@
   <article class="max-w-6xl mx-auto px-8 md:px-12 pt-10 pb-26">
 
     <div class="flex items-center justify-between gap-4 pb-8 border-b border-border reveal">
-      <p class="tag">Case Study · 2025</p>
-      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">← Back to Work</a>
+      <p class="tag">Case Study &middot; 2025</p>
+      <a href="/work.html" class="text-sm text-muted hover:text-ink transition-colors">&larr; Back to Work</a>
     </div>
 
     <header class="mt-12 reveal">
@@ -27,15 +27,21 @@
         A prompt-driven Figma plugin that generates production-ready UI components from natural language. Synced 1:1 with the coded design system so anyone on the team can design on-brand without being a designer.
       </p>
       <div class="mt-6 flex flex-wrap gap-3">
-        <span class="metric">Prompt → Component</span>
+        <span class="metric">Prompt &rarr; Component</span>
         <span class="metric">Design system synced</span>
         <span class="metric">Designed + Developed</span>
       </div>
     </header>
 
-    <div class="mt-14 reveal">
-      <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
-        <span class="tag">Hero image — Plugin interface in Figma</span>
+    <div class="mt-14 reveal flex gap-4">
+      <div class="case-img" style="flex:1">
+        <img src="/img/case-studies/figma-plugin05.png" alt="Plugin interface in Figma" loading="lazy" />
+      </div>
+      <div class="case-img" style="flex:1">
+        <img src="/img/case-studies/figma-plugin02.png" alt="Plugin prompt and generation" loading="lazy" />
+      </div>
+      <div class="case-img" style="flex:1">
+        <img src="/img/case-studies/figma-plugin01.png" alt="Generated component on canvas" loading="lazy" />
       </div>
     </div>
 
@@ -49,7 +55,7 @@
           As the sole designer, I'm a bottleneck. PMs need mockups for stakeholder alignment. Engineers need component specs for edge cases. Marketing needs landing page layouts. Every request flows through me.
         </p>
         <p>
-          The question: <strong class="text-ink">what if anyone could generate an on-brand Figma component by describing what they need in plain English?</strong> Not a generic AI design tool — one that knows our exact design system, our tokens, our component library, our visual language.
+          The question: <strong class="text-ink">what if anyone could generate an on-brand Figma component by describing what they need in plain English?</strong> Not a generic AI design tool &mdash; one that knows our exact design system, our tokens, our component library, our visual language.
         </p>
         <p>
           So I built it.
@@ -63,7 +69,6 @@
         <span class="tag">How It Works</span>
       </div>
 
-      <!-- Flow visualization -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-border reveal">
         <div class="bg-surface p-8 text-center">
           <div class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
@@ -80,7 +85,7 @@
           </div>
           <h3 class="font-display text-lg font-bold mb-2">Generate</h3>
           <p class="text-sm text-muted leading-relaxed">
-            Claude processes the prompt against the component registry — matching to existing patterns, applying correct tokens, and generating Figma-native output
+            Claude processes the prompt against the component registry &mdash; matching to existing patterns, applying correct tokens, and generating Figma-native output
           </p>
         </div>
         <div class="bg-surface p-8 text-center">
@@ -89,7 +94,7 @@
           </div>
           <h3 class="font-display text-lg font-bold mb-2">Render</h3>
           <p class="text-sm text-muted leading-relaxed">
-            The component appears directly on the Figma canvas — correct colors, typography, spacing, auto-layout. Editable like any native Figma element.
+            The component appears directly on the Figma canvas &mdash; correct colors, typography, spacing, auto-layout. Editable like any native Figma element.
           </p>
         </div>
       </div>
@@ -97,17 +102,20 @@
 
     <!-- Screenshots -->
     <section class="mt-18 space-y-6">
-      <div class="reveal">
-        <div class="aspect-[16/9] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
-          <span class="tag">Image — Plugin UI with prompt input</span>
+      <div class="reveal flex gap-4">
+        <div class="case-img" style="flex:1">
+          <img src="/img/case-studies/figma-plugin05.png" alt="Plugin UI with prompt input" loading="lazy" />
+        </div>
+        <div class="case-img" style="flex:1">
+          <img src="/img/case-studies/figma-plugin04.png" alt="Component generation workflow" loading="lazy" />
+        </div>
+        <div class="case-img" style="flex:1">
+          <img src="/img/case-studies/figma-plugin03.png" alt="Design system registry in action" loading="lazy" />
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
-        <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
-          <span class="tag">Generated component — Card</span>
-        </div>
-        <div class="aspect-[4/3] bg-gradient-to-br from-border/60 to-faint/20 rounded-xl flex items-center justify-center">
-          <span class="tag">Generated component — Form</span>
+      <div class="reveal">
+        <div class="case-img">
+          <img src="/img/case-studies/figma-plugin06.png" alt="Full plugin workflow on canvas" loading="lazy" />
         </div>
       </div>
     </section>
@@ -150,7 +158,7 @@
       <p class="tag text-faint mb-4">Impact</p>
       <h2 class="font-display text-section text-surface mb-6">Scaling design beyond the designer.</h2>
       <p class="text-surface/60 text-base leading-relaxed max-w-2xl mb-10">
-        This plugin doesn't replace the designer — it scales design thinking to the whole team. PMs can mock up ideas before requesting design time. Engineers can generate specs for edge cases. The design system stops being a reference doc and becomes a generative tool.
+        This plugin doesn't replace the designer &mdash; it scales design thinking to the whole team. PMs can mock up ideas before requesting design time. Engineers can generate specs for edge cases. The design system stops being a reference doc and becomes a generative tool.
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div>
@@ -165,8 +173,8 @@
     </section>
 
     <nav class="mt-22 flex items-center justify-between gap-4 border-t border-border pt-8">
-      <a href="/case-studies/design-system.html" class="text-sm text-muted hover:text-ink transition-colors">← Design System</a>
-      <a href="/case-studies/date-night-app.html" class="text-sm text-muted hover:text-ink transition-colors">Date Night App →</a>
+      <a href="/case-studies/lifecycle-campaigns.html" class="text-sm text-muted hover:text-ink transition-colors">&larr; Lifecycle Campaigns</a>
+      <a href="/case-studies/host-dashboard.html" class="text-sm text-muted hover:text-ink transition-colors">Host Dashboard &rarr;</a>
     </nav>
   </article>
 

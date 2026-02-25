@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>??? — Robert Riopel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      overflow: hidden;
+      background: #000;
+      cursor: none;
+      font-family: 'Syne', sans-serif;
+    }
+    canvas { display: block; }
+
+    /* Custom cursor */
+    #cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      mix-blend-mode: difference;
+      transition: transform 0.1s;
+    }
+    #cursor.clicked {
+      transform: scale(3);
+      border-color: #ff0055;
+    }
+
+    /* Glitch overlay */
+    #glitch-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: screen;
+    }
+
+    /* Floating text messages */
+    .void-text {
+      position: fixed;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      color: #fff;
+      pointer-events: none;
+      z-index: 100;
+      mix-blend-mode: difference;
+      opacity: 0;
+      animation: voidFade 8s ease-in-out forwards;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    @keyframes voidFade {
+      0% { opacity: 0; transform: translateZ(0) scale(0.5) rotate(-5deg); filter: blur(10px); }
+      15% { opacity: 1; filter: blur(0); }
+      70% { opacity: 1; transform: translateZ(0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translateZ(0) scale(2) rotate(5deg); filter: blur(20px); }
+    }
+
+    /* Scanlines */
+    #scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+    }
+
+    /* Corner coordinates */
+    .coord {
+      position: fixed;
+      font-family: 'Inter Tight', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      z-index: 200;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .coord.tl { top: 20px; left: 20px; }
+    .coord.tr { top: 20px; right: 20px; text-align: right; }
+    .coord.bl { bottom: 20px; left: 20px; }
+    .coord.br { bottom: 20px; right: 20px; text-align: right; }
+
+    /* Back link */
+    #back-link {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      cursor: pointer;
+      pointer-events: all;
+    }
+    #back-link:hover { color: #ff0055; }
+
+    /* Vignette */
+    #vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9997;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+    }
+
+    /* Chromatic aberration flash */
+    @keyframes chromatic {
+      0% { text-shadow: -2px 0 #ff0055, 2px 0 #00ffaa; }
+      25% { text-shadow: 2px 0 #ff0055, -2px 0 #5500ff; }
+      50% { text-shadow: -1px 2px #00ffaa, 1px -2px #ff0055; }
+      75% { text-shadow: 1px -1px #5500ff, -1px 1px #ff9900; }
+      100% { text-shadow: -2px 0 #ff0055, 2px 0 #00ffaa; }
+    }
+
+    /* fps counter style */
+    #entropy {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Inter Tight', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.2);
+      z-index: 200;
+      letter-spacing: 0.3em;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="glitch-overlay"></div>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+
+  <a id="back-link" href="/fun.html">&larr; Return to reality</a>
+
+  <div class="coord tl" id="coord-tl">DIMENSION: NULL</div>
+  <div class="coord tr" id="coord-tr">ENTROPY: ∞</div>
+  <div class="coord bl" id="coord-bl">SIGNAL: LOST</div>
+  <div class="coord br" id="coord-br">TIMELINE: FRACTURED</div>
+  <div id="entropy">VOID STABILITY: ██████████ 100%</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// THE VOID — A digital fever dream
+// ═══════════════════════════════════════════════════════════════
+
+const messages = [
+  "THIS IS NOT A WEBSITE",
+  "YOU WEREN'T SUPPOSED TO FIND THIS",
+  "THE DESIGNER HAS LEFT THE BUILDING",
+  "EVERY PIXEL IS LYING TO YOU",
+  "YOUR SCREEN IS A WINDOW",
+  "THE VOID STARES BACK",
+  "CTRL+Z WON'T SAVE YOU",
+  "DESIGN IS JUST ORGANIZED CHAOS",
+  "THIS IS WHAT HAPPENS AFTER MIDNIGHT",
+  "THE GRID HAS COLLAPSED",
+  "FIGMA CAN'T HELP YOU HERE",
+  "KERNING IS MEANINGLESS NOW",
+  "ALL WHITESPACE IS A LIE",
+  "THE BRAND GUIDELINES HAVE BEEN VIOLATED",
+  "ALIGNMENT: CHAOTIC EVIL",
+  "LEADING: NEGATIVE INFINITY",
+  "YOUR MOCKUP HAS GAINED SENTIENCE",
+  "STAKEHOLDER FEEDBACK ZONE",
+  "REVISION 847 OF 847",
+  "THE COMPONENTS HAVE ESCAPED",
+  "WIREFRAMES ALL THE WAY DOWN",
+  "DESIGN SYSTEM: CORRUPTED",
+  "PIXEL PERFECT IS A PRISON",
+  "USER TESTING IN THE ABYSS",
+  "THE LOREM IPSUM HAS BECOME REAL",
+];
+
+let scene, camera, renderer, clock;
+let mouseX = 0, mouseY = 0;
+let targetMouseX = 0, targetMouseY = 0;
+let objects = [];
+let voidCore;
+let particleSystem;
+let rings = [];
+let time = 0;
+let glitchIntensity = 0;
+let stability = 100;
+
+const cursor = document.getElementById('cursor');
+const glitchOverlay = document.getElementById('glitch-overlay');
+
+// Mouse tracking
+document.addEventListener('mousemove', (e) => {
+  targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+  targetMouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  cursor.style.left = e.clientX - 10 + 'px';
+  cursor.style.top = e.clientY - 10 + 'px';
+});
+
+document.addEventListener('mousedown', () => {
+  cursor.classList.add('clicked');
+  glitchIntensity = 1.0;
+  spawnBurst();
+  setTimeout(() => cursor.classList.remove('clicked'), 300);
+});
+
+// ─── Init ───
+function init() {
+  clock = new THREE.Clock();
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x000000, 0.012);
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 30;
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000);
+  document.body.appendChild(renderer.domElement);
+
+  // ─── The Void Core — a writhing toroidal knot ───
+  const knotGeo = new THREE.TorusKnotGeometry(4, 1.5, 200, 32, 3, 5);
+  const knotMat = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+    emissive: 0xff0055,
+    emissiveIntensity: 0.3,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+  voidCore = new THREE.Mesh(knotGeo, knotMat);
+  scene.add(voidCore);
+
+  // Inner solid core
+  const innerGeo = new THREE.IcosahedronGeometry(2, 2);
+  const innerMat = new THREE.MeshStandardMaterial({
+    color: 0x110011,
+    emissive: 0x5500ff,
+    emissiveIntensity: 0.8,
+    metalness: 1,
+    roughness: 0.2,
+  });
+  const innerCore = new THREE.Mesh(innerGeo, innerMat);
+  voidCore.add(innerCore);
+
+  // ─── Orbiting Rings ───
+  for (let i = 0; i < 5; i++) {
+    const ringGeo = new THREE.TorusGeometry(8 + i * 3, 0.02 + Math.random() * 0.05, 8, 200);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color().setHSL(i * 0.15, 1, 0.5),
+      transparent: true,
+      opacity: 0.4,
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.random() * Math.PI;
+    ring.rotation.y = Math.random() * Math.PI;
+    ring.userData = { speed: 0.2 + Math.random() * 0.5, axis: Math.random() * Math.PI };
+    rings.push(ring);
+    scene.add(ring);
+  }
+
+  // ─── Floating Impossible Objects ───
+  const geometries = [
+    new THREE.TetrahedronGeometry(1, 0),
+    new THREE.OctahedronGeometry(1, 0),
+    new THREE.DodecahedronGeometry(0.8, 0),
+    new THREE.TorusGeometry(0.6, 0.2, 8, 6),
+    new THREE.ConeGeometry(0.5, 1.5, 3),
+    new THREE.TorusKnotGeometry(0.5, 0.15, 64, 8, 2, 3),
+    new THREE.BoxGeometry(0.8, 0.8, 0.8),
+    new THREE.SphereGeometry(0.5, 4, 2), // Low-poly sphere = cursed
+    new THREE.CylinderGeometry(0, 0.8, 1.2, 3), // Pyramid
+    new THREE.IcosahedronGeometry(0.6, 0),
+  ];
+
+  for (let i = 0; i < 120; i++) {
+    const geo = geometries[Math.floor(Math.random() * geometries.length)];
+    const hue = Math.random();
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color().setHSL(hue, 0.8, 0.15),
+      emissive: new THREE.Color().setHSL(hue, 1, 0.3),
+      emissiveIntensity: 0.5 + Math.random() * 0.5,
+      wireframe: Math.random() > 0.6,
+      transparent: true,
+      opacity: 0.3 + Math.random() * 0.5,
+      metalness: Math.random(),
+      roughness: Math.random(),
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    // Distribute in a sphere
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const r = 10 + Math.random() * 40;
+    mesh.position.set(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.sin(phi) * Math.sin(theta),
+      r * Math.cos(phi)
+    );
+
+    const s = 0.3 + Math.random() * 1.5;
+    mesh.scale.set(s, s, s);
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+
+    mesh.userData = {
+      orbitSpeed: (0.1 + Math.random() * 0.4) * (Math.random() > 0.5 ? 1 : -1),
+      orbitRadius: r,
+      orbitOffset: Math.random() * Math.PI * 2,
+      wobbleSpeed: 1 + Math.random() * 3,
+      wobbleAmount: 0.5 + Math.random() * 2,
+      pulseSpeed: 0.5 + Math.random() * 2,
+      originalScale: s,
+      phase: Math.random() * Math.PI * 2,
+      attracted: false,
+    };
+
+    objects.push(mesh);
+    scene.add(mesh);
+  }
+
+  // ─── Particle Field ───
+  const particleCount = 3000;
+  const particleGeo = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+
+  for (let i = 0; i < particleCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 200;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+    const c = new THREE.Color().setHSL(Math.random(), 0.5, 0.5);
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+  }
+
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const particleMat = new THREE.PointsMaterial({
+    size: 0.15,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.6,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  particleSystem = new THREE.Points(particleGeo, particleMat);
+  scene.add(particleSystem);
+
+  // ─── Lights ───
+  const ambient = new THREE.AmbientLight(0x111111);
+  scene.add(ambient);
+
+  const point1 = new THREE.PointLight(0xff0055, 2, 80);
+  point1.position.set(10, 10, 10);
+  scene.add(point1);
+
+  const point2 = new THREE.PointLight(0x5500ff, 2, 80);
+  point2.position.set(-10, -10, -10);
+  scene.add(point2);
+
+  const point3 = new THREE.PointLight(0x00ffaa, 1.5, 60);
+  point3.position.set(0, 15, -10);
+  scene.add(point3);
+
+  // ─── Start message spawner ───
+  setInterval(spawnMessage, 3000);
+  setTimeout(spawnMessage, 500);
+
+  // ─── Start entropy counter ───
+  setInterval(updateEntropy, 100);
+
+  // ─── Start coordinate scrambler ───
+  setInterval(scrambleCoords, 2000);
+
+  window.addEventListener('resize', onResize);
+  animate();
+}
+
+// ─── Spawn floating text ───
+function spawnMessage() {
+  const msg = messages[Math.floor(Math.random() * messages.length)];
+  const el = document.createElement('div');
+  el.className = 'void-text';
+  el.textContent = msg;
+  el.style.fontSize = (12 + Math.random() * 40) + 'px';
+  el.style.left = (5 + Math.random() * 80) + '%';
+  el.style.top = (5 + Math.random() * 80) + '%';
+  el.style.animation = `voidFade ${5 + Math.random() * 6}s ease-in-out forwards`;
+  el.style.animationName = 'voidFade, chromatic';
+  el.style.animationDuration = `${5 + Math.random() * 6}s, 0.5s`;
+  el.style.animationIterationCount = '1, infinite';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 12000);
+}
+
+// ─── Click burst ───
+function spawnBurst() {
+  for (let i = 0; i < 8; i++) {
+    const geo = new THREE.TetrahedronGeometry(0.3, 0);
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color().setHSL(Math.random(), 1, 0.5),
+      wireframe: true,
+      transparent: true,
+      opacity: 1,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    // Convert mouse to 3D
+    const vec = new THREE.Vector3(targetMouseX, -targetMouseY, 0.5);
+    vec.unproject(camera);
+    vec.sub(camera.position).normalize();
+    const dist = 15;
+    mesh.position.copy(camera.position).add(vec.multiplyScalar(dist));
+    mesh.position.add(new THREE.Vector3(
+      (Math.random() - 0.5) * 5,
+      (Math.random() - 0.5) * 5,
+      (Math.random() - 0.5) * 5
+    ));
+
+    mesh.userData = {
+      velocity: new THREE.Vector3(
+        (Math.random() - 0.5) * 0.5,
+        (Math.random() - 0.5) * 0.5,
+        (Math.random() - 0.5) * 0.5
+      ),
+      life: 1,
+      decay: 0.008 + Math.random() * 0.01,
+    };
+
+    scene.add(mesh);
+
+    const update = () => {
+      mesh.position.add(mesh.userData.velocity);
+      mesh.rotation.x += 0.05;
+      mesh.rotation.y += 0.03;
+      mesh.userData.life -= mesh.userData.decay;
+      mesh.material.opacity = mesh.userData.life;
+      mesh.scale.multiplyScalar(1.02);
+      if (mesh.userData.life > 0) {
+        requestAnimationFrame(update);
+      } else {
+        scene.remove(mesh);
+        mesh.geometry.dispose();
+        mesh.material.dispose();
+      }
+    };
+    update();
+  }
+}
+
+// ─── Entropy display ───
+function updateEntropy() {
+  stability = Math.max(0, stability - 0.02 - Math.random() * 0.05);
+  const bars = Math.round(stability / 10);
+  const filled = '█'.repeat(bars);
+  const empty = '░'.repeat(10 - bars);
+  document.getElementById('entropy').textContent =
+    `VOID STABILITY: ${filled}${empty} ${stability.toFixed(1)}%`;
+}
+
+// ─── Coordinate scrambler ───
+function scrambleCoords() {
+  const dims = ['NULL', 'UNDEFINED', '∅', 'NaN', 'VOID', '∞', '-∞', '???', '404', 'REDACTED', 'CORRUPTED'];
+  const signals = ['LOST', 'FADING', 'GONE', 'ECHO', 'STATIC', 'DEAD', 'GHOST', '░░░░'];
+  const timelines = ['FRACTURED', 'LOOPING', 'COLLAPSED', 'DIVERGENT', 'ERASED', 'BLEEDING', 'RECURSIVE'];
+
+  document.getElementById('coord-tl').textContent = `DIMENSION: ${dims[Math.floor(Math.random() * dims.length)]}`;
+  document.getElementById('coord-tr').textContent = `ENTROPY: ${(Math.random() * 99999).toFixed(0)}`;
+  document.getElementById('coord-bl').textContent = `SIGNAL: ${signals[Math.floor(Math.random() * signals.length)]}`;
+  document.getElementById('coord-br').textContent = `TIMELINE: ${timelines[Math.floor(Math.random() * timelines.length)]}`;
+}
+
+// ─── Glitch effect ───
+function updateGlitch() {
+  if (glitchIntensity > 0.01) {
+    const r = Math.random();
+    if (r > 0.7) {
+      glitchOverlay.style.background = `linear-gradient(${Math.random()*360}deg,
+        rgba(255,0,85,${glitchIntensity * 0.3}) ${Math.random()*30}%,
+        transparent ${30 + Math.random()*40}%,
+        rgba(85,0,255,${glitchIntensity * 0.3}) ${70 + Math.random()*30}%)`;
+    } else if (r > 0.4) {
+      const y = Math.random() * 100;
+      const h = 2 + Math.random() * 10;
+      glitchOverlay.style.background =
+        `linear-gradient(0deg, transparent ${y}%, rgba(255,255,255,${glitchIntensity * 0.5}) ${y}%, rgba(255,255,255,${glitchIntensity * 0.5}) ${y + h}%, transparent ${y + h}%)`;
+    } else {
+      glitchOverlay.style.background = 'none';
+    }
+    glitchIntensity *= 0.95;
+  } else {
+    glitchOverlay.style.background = 'none';
+    // Random glitch bursts
+    if (Math.random() > 0.997) {
+      glitchIntensity = 0.3 + Math.random() * 0.5;
+    }
+  }
+}
+
+// ─── Resize ───
+function onResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// ─── Main loop ───
+function animate() {
+  requestAnimationFrame(animate);
+  const delta = clock.getDelta();
+  time += delta;
+
+  // Smooth mouse
+  mouseX += (targetMouseX - mouseX) * 0.05;
+  mouseY += (targetMouseY - mouseY) * 0.05;
+
+  // Camera orbits based on mouse
+  camera.position.x = Math.sin(time * 0.1 + mouseX * 2) * 30;
+  camera.position.y = Math.cos(time * 0.08 + mouseY * 2) * 15;
+  camera.position.z = Math.cos(time * 0.1) * 30;
+  camera.lookAt(0, 0, 0);
+
+  // Void core writhes
+  voidCore.rotation.x += 0.003 + mouseX * 0.01;
+  voidCore.rotation.y += 0.005 + mouseY * 0.01;
+  voidCore.rotation.z += 0.002;
+  const pulse = Math.sin(time * 2) * 0.2 + 1;
+  voidCore.scale.set(pulse, pulse, pulse);
+  voidCore.material.emissive.setHSL((time * 0.05) % 1, 1, 0.3);
+  voidCore.children[0].material.emissive.setHSL((time * 0.05 + 0.5) % 1, 1, 0.4);
+
+  // Rings orbit
+  rings.forEach((ring, i) => {
+    ring.rotation.x += ring.userData.speed * delta * 0.3;
+    ring.rotation.y += ring.userData.speed * delta * 0.2;
+    ring.rotation.z += Math.sin(time + i) * 0.002;
+    ring.material.color.setHSL((time * 0.1 + i * 0.15) % 1, 1, 0.5);
+    ring.material.opacity = 0.2 + Math.sin(time * 0.5 + i) * 0.2;
+  });
+
+  // Objects orbit and pulse
+  objects.forEach((obj, i) => {
+    const d = obj.userData;
+    const t = time * d.orbitSpeed + d.orbitOffset;
+
+    // Spiral orbit
+    const orbitR = d.orbitRadius + Math.sin(time * 0.3 + i) * 3;
+    obj.position.x = Math.sin(t) * orbitR * Math.cos(d.phase + time * 0.02);
+    obj.position.y = Math.cos(t * 0.7) * orbitR * 0.5 + Math.sin(time * d.wobbleSpeed + i) * d.wobbleAmount;
+    obj.position.z = Math.cos(t) * orbitR * Math.sin(d.phase + time * 0.02);
+
+    // Rotation
+    obj.rotation.x += delta * d.wobbleSpeed * 0.3;
+    obj.rotation.y += delta * d.wobbleSpeed * 0.2;
+
+    // Pulse scale
+    const s = d.originalScale * (1 + Math.sin(time * d.pulseSpeed + i) * 0.3);
+    obj.scale.set(s, s, s);
+
+    // Color cycling
+    if (obj.material.emissive) {
+      obj.material.emissive.setHSL((time * 0.05 + i * 0.01) % 1, 1, 0.3 + Math.sin(time + i) * 0.1);
+    }
+
+    // Phase through: random opacity flicker
+    if (Math.random() > 0.999) {
+      obj.material.opacity = Math.random() * 0.3;
+      setTimeout(() => { obj.material.opacity = 0.3 + Math.random() * 0.5; }, 100 + Math.random() * 300);
+    }
+  });
+
+  // Particle field rotation
+  particleSystem.rotation.y += delta * 0.02;
+  particleSystem.rotation.x += delta * 0.01;
+
+  // Particle color cycling
+  const pColors = particleSystem.geometry.attributes.color;
+  for (let i = 0; i < pColors.count; i += 50) { // Update every 50th particle per frame
+    const c = new THREE.Color().setHSL((time * 0.1 + i * 0.001) % 1, 0.6, 0.5);
+    pColors.setXYZ(i, c.r, c.g, c.b);
+  }
+  pColors.needsUpdate = true;
+
+  // Fog color shifts
+  const fogHue = (time * 0.02) % 1;
+  scene.fog.color.setHSL(fogHue, 0.3, 0.02);
+  renderer.setClearColor(scene.fog.color);
+
+  // Glitch
+  updateGlitch();
+
+  // Occasional camera shake
+  if (glitchIntensity > 0.1) {
+    camera.position.x += (Math.random() - 0.5) * glitchIntensity * 2;
+    camera.position.y += (Math.random() - 0.5) * glitchIntensity * 2;
+  }
+
+  renderer.render(scene, camera);
+}
+
+// ─── LAUNCH THE VOID ───
+init();
+</script>
+
+  <script src="/js/script.js" defer></script>
+</body>
+</html>
