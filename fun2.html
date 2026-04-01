@@ -92,6 +92,7 @@
       z-index: 200;
       letter-spacing: 0.2em;
       text-transform: uppercase;
+      transition: opacity 1s ease, transform 1s ease;
     }
     .coord.tl { top: 20px; left: 20px; }
     .coord.tr { top: 20px; right: 20px; text-align: right; }
@@ -111,7 +112,7 @@
       text-decoration: none;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      transition: color 0.3s;
+      transition: color 0.3s, opacity 1s ease, transform 1s ease;
       cursor: pointer;
       pointer-events: all;
     }
@@ -135,7 +136,7 @@
       100% { text-shadow: -2px 0 #ff0055, 2px 0 #00ffaa; }
     }
 
-    /* fps counter style */
+    /* Entropy / stability bar */
     #entropy {
       position: fixed;
       bottom: 20px;
@@ -146,7 +147,106 @@
       color: rgba(255,255,255,0.2);
       z-index: 200;
       letter-spacing: 0.3em;
+      transition: opacity 1s ease, transform 1s ease;
     }
+
+    /* Screen tear elements */
+    .screen-tear {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,0,85,0.8) 20%, rgba(0,255,170,0.8) 50%, rgba(85,0,255,0.8) 80%, transparent 100%);
+      pointer-events: none;
+      z-index: 9996;
+    }
+
+    /* Chrome-like dialog */
+    #chrome-dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px;
+      background: #292a2d;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      z-index: 99999;
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      color: #e8eaed;
+      overflow: hidden;
+    }
+    #chrome-dialog .chrome-title-bar {
+      background: #3c4043;
+      padding: 10px 16px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #chrome-dialog .chrome-dots { display: flex; gap: 6px; }
+    #chrome-dialog .chrome-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    #chrome-dialog .dot-r { background: #ff5f57; }
+    #chrome-dialog .dot-y { background: #febc2e; }
+    #chrome-dialog .dot-g { background: #28c840; }
+    #chrome-dialog .chrome-body { padding: 24px; }
+    #chrome-dialog h3 { font-size: 16px; margin-bottom: 12px; color: #e8eaed; }
+    #chrome-dialog p { font-size: 13px; color: #9aa0a6; line-height: 1.6; margin-bottom: 20px; }
+    #chrome-dialog .chrome-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    #chrome-dialog button {
+      padding: 6px 20px;
+      border-radius: 4px;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    #chrome-dialog .btn-cancel { background: transparent; color: #8ab4f8; }
+    #chrome-dialog .btn-cancel:hover { background: rgba(138,180,248,0.1); }
+    #chrome-dialog .btn-confirm { background: #8ab4f8; color: #202124; }
+    #chrome-dialog .btn-confirm:hover { background: #aecbfa; }
+
+    /* Post-collapse UI text */
+    #post-text {
+      display: none;
+      position: fixed;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 500;
+      pointer-events: none;
+    }
+    #post-text .post-line {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(18px, 3vw, 32px);
+      color: rgba(255,255,255,0);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 16px;
+      transition: color 1.2s ease;
+    }
+    #post-text .post-line.visible { color: rgba(255,255,255,0.9); }
+    #post-text #start-over-link {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      pointer-events: none;
+      transition: color 1s ease;
+      display: block;
+    }
+    #post-text #start-over-link.visible {
+      color: rgba(255,255,255,0.4);
+      pointer-events: all;
+    }
+    #post-text #start-over-link:hover { color: #ff0055; }
   </style>
 </head>
 <body>
@@ -164,9 +264,34 @@
   <div class="coord br" id="coord-br">TIMELINE: FRACTURED</div>
   <div id="entropy">VOID STABILITY: ██████████ 100%</div>
 
+  <div id="chrome-dialog">
+    <div class="chrome-title-bar">
+      <div class="chrome-dots">
+        <div class="chrome-dot dot-r"></div>
+        <div class="chrome-dot dot-y"></div>
+        <div class="chrome-dot dot-g"></div>
+      </div>
+      <span style="margin-left:8px;font-size:12px;color:#9aa0a6">riopel-design.github.io says</span>
+    </div>
+    <div class="chrome-body">
+      <h3>Leave this page?</h3>
+      <p>Changes you made may not be saved.<br>The void cannot be undone.</p>
+      <div class="chrome-actions">
+        <button class="btn-cancel" onclick="document.getElementById('chrome-dialog').style.display='none'">Stay</button>
+        <button class="btn-confirm" onclick="document.getElementById('chrome-dialog').style.display='none'">Leave</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="post-text">
+    <span class="post-line" id="post-line-1">you broke it.</span>
+    <span class="post-line" id="post-line-2">there is nothing left.</span>
+    <a id="start-over-link" href="/fun2.html">&larr; start over</a>
+  </div>
+
 <script>
 // ═══════════════════════════════════════════════════════════════
-// THE VOID — A digital fever dream
+// THE VOID — Multi-phase horror experience
 // ═══════════════════════════════════════════════════════════════
 
 const messages = [
@@ -195,38 +320,647 @@ const messages = [
   "PIXEL PERFECT IS A PRISON",
   "USER TESTING IN THE ABYSS",
   "THE LOREM IPSUM HAS BECOME REAL",
+  "STOP CLICKING",
+  "WHY ARE YOU STILL HERE",
+  "IT SEES YOU NOW",
+  "YOU CANNOT UNSEE THIS",
+  "THE EYE DOES NOT BLINK FOR YOU",
 ];
 
+// ─── STATE ───
+let clickCount = 0;
+let phase = 0;
+let collapsing = false;
+let collapsed = false;
+let stability = 100;
+
+// ─── THREE.JS STATE ───
 let scene, camera, renderer, clock;
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
+let mouseHistory = []; // for cursor lag in phase 4+
 let objects = [];
-let voidCore;
+let voidCore, voidCore2 = null;
+let eyeGroup = null;
 let particleSystem;
 let rings = [];
 let time = 0;
 let glitchIntensity = 0;
-let stability = 100;
 
+// ─── PHASE PARAMETERS ───
+let jitterAmount = 0;
+let gravityStrength = 0;
+let cameraRollSpeed = 0;
+let constantShake = false;
+let cursorLag = false;
+let tearConstant = false;
+let backLinkScrambleId = null;
+
+// ─── TIMERS ───
+let messageInterval = null;
+let coordInterval = null;
+let eyeBlinkTimer = null;
+let realityFlashTimer = null;
+
+// ─── DOM REFS ───
 const cursor = document.getElementById('cursor');
 const glitchOverlay = document.getElementById('glitch-overlay');
+const scanlines = document.getElementById('scanlines');
+const vignette = document.getElementById('vignette');
+const entropyEl = document.getElementById('entropy');
 
-// Mouse tracking
+// ─── MOUSE TRACKING ───
 document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
   targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
   targetMouseY = (e.clientY / window.innerHeight) * 2 - 1;
-  cursor.style.left = e.clientX - 10 + 'px';
-  cursor.style.top = e.clientY - 10 + 'px';
+
+  // Always push to history for lag effect
+  mouseHistory.push({ x: e.clientX, y: e.clientY, t: now });
+  if (mouseHistory.length > 120) mouseHistory.shift();
+
+  if (!cursorLag) {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+  }
 });
 
-document.addEventListener('mousedown', () => {
+// ─── CLICK HANDLER — the whole mechanic ───
+document.addEventListener('mousedown', (e) => {
+  if (collapsing || collapsed) return;
+
+  clickCount++;
   cursor.classList.add('clicked');
   glitchIntensity = 1.0;
   spawnBurst();
   setTimeout(() => cursor.classList.remove('clicked'), 300);
+
+  // Stability drops 10% per click
+  stability = Math.max(0, 100 - clickCount * 10);
+  updateEntropyDisplay();
+
+  // Phase transitions
+  if (clickCount === 1) enterPhase1();
+  else if (clickCount === 3) enterPhase2();
+  else if (clickCount === 5) enterPhase3();
+  else if (clickCount === 6) enterPhase4();
+  else if (clickCount === 8) enterPhase5();
+  else if (clickCount >= 10) triggerCollapse();
 });
 
-// ─── Init ───
+function updateEntropyDisplay() {
+  const bars = Math.round(stability / 10);
+  const filled = '█'.repeat(bars);
+  const empty = '░'.repeat(10 - bars);
+  entropyEl.textContent = `VOID STABILITY: ${filled}${empty} ${stability.toFixed(0)}%`;
+}
+
+// ═══════════════════════════════════════════
+// PHASE 1 — clicks 1-2: jitter kicks in
+// ═══════════════════════════════════════════
+function enterPhase1() {
+  phase = 1;
+  jitterAmount = 0.18;
+
+  // Doubled scanline density
+  scanlines.style.background = `repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 1px,
+    rgba(0,0,0,0.2) 1px,
+    rgba(0,0,0,0.2) 2px
+  )`;
+
+  // Faster coord scramble
+  clearInterval(coordInterval);
+  coordInterval = setInterval(scrambleCoords, 800);
+}
+
+// ═══════════════════════════════════════════
+// PHASE 2 — clicks 3-4: gravity, red fog, tears
+// ═══════════════════════════════════════════
+function enterPhase2() {
+  phase = 2;
+  gravityStrength = 0.025;
+  cameraRollSpeed = 0.0007;
+
+  // Red fog
+  scene.fog.color.set(0x330000);
+  renderer.setClearColor(0x0a0000);
+
+  // Faster messages
+  clearInterval(messageInterval);
+  messageInterval = setInterval(spawnMessage, 1200);
+
+  // Occasional screen tears
+  setInterval(() => {
+    if (phase >= 2 && !collapsed) spawnTear(false);
+  }, 1500);
+}
+
+function spawnTear(persistent) {
+  const tear = document.createElement('div');
+  tear.className = 'screen-tear';
+  tear.style.top = (Math.random() * 90 + 5) + 'vh';
+  tear.style.opacity = '0.6';
+  document.body.appendChild(tear);
+  if (!persistent) {
+    setTimeout(() => tear.remove(), 150 + Math.random() * 200);
+  }
+  return tear;
+}
+
+// ═══════════════════════════════════════════
+// PHASE 3 — click 5: void splits, constant shake
+// ═══════════════════════════════════════════
+function enterPhase3() {
+  phase = 3;
+  constantShake = true;
+  splitVoidCore();
+
+  // Inverted vignette
+  vignette.style.background = 'radial-gradient(ellipse at center, rgba(255,0,85,0.15) 0%, rgba(0,0,0,0) 60%, rgba(255,0,0,0.3) 100%)';
+}
+
+function splitVoidCore() {
+  const geo = new THREE.TorusKnotGeometry(2.5, 0.8, 120, 20, 2, 3);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+    emissive: 0x00ffaa,
+    emissiveIntensity: 0.4,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.5,
+  });
+  voidCore2 = new THREE.Mesh(geo, mat);
+  scene.add(voidCore2);
+}
+
+// ═══════════════════════════════════════════
+// PHASE 4 — clicks 6-7: the eye assembles
+// ═══════════════════════════════════════════
+function enterPhase4() {
+  phase = 4;
+  cursorLag = true;
+  assembleEye();
+}
+
+function assembleEye() {
+  eyeGroup = new THREE.Group();
+
+  // Sclera — torus ring (the eye socket / outer rim)
+  const scleraGeo = new THREE.TorusGeometry(3, 0.8, 16, 100);
+  const scleraMat = new THREE.MeshStandardMaterial({
+    color: 0x111111,
+    emissive: 0xff2200,
+    emissiveIntensity: 0.6,
+    metalness: 0.8,
+    roughness: 0.2,
+  });
+  const sclera = new THREE.Mesh(scleraGeo, scleraMat);
+  eyeGroup.add(sclera);
+
+  // Iris — icosahedron
+  const irisGeo = new THREE.IcosahedronGeometry(2, 1);
+  const irisMat = new THREE.MeshStandardMaterial({
+    color: 0x002211,
+    emissive: 0x00ff88,
+    emissiveIntensity: 0.5,
+    metalness: 1,
+    roughness: 0.1,
+    wireframe: false,
+    transparent: true,
+    opacity: 0.85,
+  });
+  const iris = new THREE.Mesh(irisGeo, irisMat);
+  iris.name = 'iris';
+  eyeGroup.add(iris);
+
+  // Pupil — sphere (dark, deeply absorbing)
+  const pupilGeo = new THREE.SphereGeometry(1, 32, 32);
+  const pupilMat = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+    emissive: 0x110000,
+    emissiveIntensity: 1,
+    metalness: 1,
+    roughness: 0,
+  });
+  const pupil = new THREE.Mesh(pupilGeo, pupilMat);
+  pupil.name = 'pupil';
+  eyeGroup.add(pupil);
+
+  eyeGroup.position.set(0, 0, 0);
+  scene.add(eyeGroup);
+
+  // Random flips every 4-8s
+  const doFlip = () => {
+    if (phase >= 4 && !collapsed) {
+      const flip = Math.random() > 0.5;
+      camera.up.set(0, flip ? -1 : 1, 0);
+      setTimeout(doFlip, 4000 + Math.random() * 4000);
+    }
+  };
+  setTimeout(doFlip, 4000 + Math.random() * 4000);
+}
+
+// ═══════════════════════════════════════════
+// PHASE 5 — clicks 8-9: maximum horror
+// ═══════════════════════════════════════════
+function enterPhase5() {
+  phase = 5;
+
+  // Accretion disc — flatten the particle system
+  const flattenAccretion = () => {
+    if (particleSystem.scale.y > 0.02) {
+      particleSystem.scale.y -= 0.008;
+      requestAnimationFrame(flattenAccretion);
+    } else {
+      particleSystem.scale.y = 0.02;
+    }
+  };
+  flattenAccretion();
+
+  // 5 persistent tears
+  tearConstant = true;
+  for (let i = 0; i < 5; i++) {
+    spawnTear(true);
+  }
+
+  // Reality flash timer — brief near-black flicker
+  realityFlashTimer = setInterval(() => {
+    if (!collapsed) {
+      renderer.setClearColor(0x111008);
+      setTimeout(() => renderer.setClearColor(scene.fog.color), 80);
+    }
+  }, 2000 + Math.random() * 2000);
+
+  // Back link text scramble
+  startBackLinkScramble();
+
+  // Show chrome dialog after brief delay
+  setTimeout(showChromeDialog, 2500);
+
+  // Eye blink — close and open sclera
+  eyeBlinkTimer = setInterval(() => {
+    if (eyeGroup && !collapsed) triggerBlink();
+  }, 3000 + Math.random() * 3000);
+}
+
+function startBackLinkScramble() {
+  const chars = '░▒▓█▄▀■□▪▫◆◇○●∅∞∴∵≠≡±×÷←→↑↓↔↕⟨⟩';
+  const original = '← RETURN TO REALITY';
+  const el = document.getElementById('back-link');
+  backLinkScrambleId = setInterval(() => {
+    if (collapsed) { clearInterval(backLinkScrambleId); return; }
+    let out = '';
+    for (let i = 0; i < original.length; i++) {
+      out += Math.random() > 0.6
+        ? chars[Math.floor(Math.random() * chars.length)]
+        : original[i];
+    }
+    el.textContent = out;
+  }, 80);
+}
+
+function triggerBlink() {
+  if (!eyeGroup) return;
+  const sclera = eyeGroup.children[0];
+  const startY = eyeGroup.scale.y;
+  let t = 0;
+  const blink = () => {
+    t += 0.08;
+    const y = t < 0.5
+      ? 1 - t * 2
+      : (t - 0.5) * 2;
+    eyeGroup.scale.y = Math.max(0.01, y);
+    if (t < 1) requestAnimationFrame(blink);
+    else eyeGroup.scale.y = 1;
+  };
+  blink();
+}
+
+function showChromeDialog() {
+  if (!collapsed) {
+    document.getElementById('chrome-dialog').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('chrome-dialog').style.display = 'none';
+    }, 6000);
+  }
+}
+
+// ═══════════════════════════════════════════
+// COLLAPSE — click 10
+// ═══════════════════════════════════════════
+function triggerCollapse() {
+  if (collapsing || collapsed) return;
+  collapsing = true;
+  phase = 6;
+  stability = 0;
+  updateEntropyDisplay();
+
+  // Kill all intervals
+  clearInterval(messageInterval);
+  clearInterval(coordInterval);
+  clearInterval(eyeBlinkTimer);
+  clearInterval(realityFlashTimer);
+  if (backLinkScrambleId) clearInterval(backLinkScrambleId);
+
+  // Suck UI elements to center
+  const uiEls = document.querySelectorAll('.coord, #entropy, #back-link');
+  uiEls.forEach(el => {
+    el.style.transition = 'opacity 1s ease, transform 1s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-50%) translateY(-50%) scale(0)';
+  });
+  // coord tl/tr/bl/br have different base transforms
+  document.getElementById('coord-tl').style.transform = 'translate(40vw, 40vh) scale(0)';
+  document.getElementById('coord-tr').style.transform = 'translate(-40vw, 40vh) scale(0)';
+  document.getElementById('coord-bl').style.transform = 'translate(40vw, -40vh) scale(0)';
+  document.getElementById('coord-br').style.transform = 'translate(-40vw, -40vh) scale(0)';
+
+  animateCollapse();
+}
+
+function animateCollapse() {
+  const startTime = Date.now();
+  const duration = 2200;
+
+  // Spawn initial shockwave
+  spawnShockwaves();
+
+  const collapseLoop = () => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Violent camera shake ±20px equivalent
+    const shakeAmt = (1 - progress) * 20;
+    camera.position.x += (Math.random() - 0.5) * shakeAmt * 0.5;
+    camera.position.y += (Math.random() - 0.5) * shakeAmt * 0.5;
+
+    // Suck all objects toward center
+    objects.forEach(obj => {
+      obj.position.lerp(new THREE.Vector3(0, 0, 0), 0.04 + progress * 0.06);
+      obj.scale.multiplyScalar(1 - progress * 0.015);
+    });
+
+    // Rings spiral inward
+    rings.forEach((ring, i) => {
+      ring.scale.multiplyScalar(1 - progress * 0.02);
+      ring.rotation.z += 0.05 * (1 + progress * 3);
+    });
+
+    // Void core sucks in and pulses wildly
+    if (voidCore) {
+      voidCore.position.lerp(new THREE.Vector3(0, 0, 0), 0.1);
+      const collapse_pulse = 1 + Math.sin(elapsed * 0.05) * (1 - progress) * 2;
+      voidCore.scale.set(collapse_pulse, collapse_pulse, collapse_pulse);
+    }
+    if (voidCore2) {
+      voidCore2.position.lerp(new THREE.Vector3(0, 0, 0), 0.12);
+    }
+    if (eyeGroup) {
+      eyeGroup.position.lerp(new THREE.Vector3(0, 0, 0), 0.08);
+      const es = Math.max(0.01, 1 - progress * 1.2);
+      eyeGroup.scale.set(es, es, es);
+    }
+
+    // Glitch maxed
+    glitchIntensity = 1.0;
+
+    if (progress < 1) {
+      requestAnimationFrame(collapseLoop);
+    } else {
+      // Fade renderer canvas
+      const canvas = renderer.domElement;
+      canvas.style.transition = 'opacity 0.8s ease';
+      canvas.style.opacity = '0';
+
+      setTimeout(buildPostCollapse, 1200);
+    }
+  };
+
+  requestAnimationFrame(collapseLoop);
+}
+
+function spawnShockwaves() {
+  for (let w = 0; w < 4; w++) {
+    setTimeout(() => {
+      const ringGeo = new THREE.TorusGeometry(0.1, 0.05, 8, 60);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color().setHSL(w * 0.25, 1, 0.7),
+        transparent: true,
+        opacity: 0.9,
+      });
+      const shockRing = new THREE.Mesh(ringGeo, ringMat);
+      scene.add(shockRing);
+
+      let progress = 0;
+      const expand = () => {
+        progress += 0.015;
+        const s = 1 + progress * 40;
+        shockRing.scale.set(s, s, s);
+        shockRing.material.opacity = Math.max(0, 0.9 - progress);
+        if (progress < 1) {
+          requestAnimationFrame(expand);
+        } else {
+          scene.remove(shockRing);
+          shockRing.geometry.dispose();
+          shockRing.material.dispose();
+        }
+      };
+      expand();
+    }, w * 300);
+  }
+}
+
+// ═══════════════════════════════════════════
+// POST-COLLAPSE SCENE
+// ═══════════════════════════════════════════
+function buildPostCollapse() {
+  collapsed = true;
+  collapsing = false;
+
+  // Wipe old scene
+  renderer.domElement.style.opacity = '0';
+
+  // Dispose old scene contents
+  while (scene.children.length > 0) {
+    const obj = scene.children[0];
+    if (obj.geometry) obj.geometry.dispose();
+    if (obj.material) {
+      if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+      else obj.material.dispose();
+    }
+    scene.remove(obj);
+  }
+
+  // Reset camera
+  camera.position.set(0, 0, 20);
+  camera.up.set(0, 1, 0);
+  camera.lookAt(0, 0, 0);
+  renderer.setClearColor(0x000000);
+  scene.fog = new THREE.FogExp2(0x000000, 0.018);
+
+  // ── Bloom sphere (initial presence, fades out) ──
+  const bloomGeo = new THREE.SphereGeometry(2, 32, 32);
+  const bloomMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    emissive: 0xffffff,
+    emissiveIntensity: 2,
+    transparent: true,
+    opacity: 0.9,
+  });
+  const bloomSphere = new THREE.Mesh(bloomGeo, bloomMat);
+  scene.add(bloomSphere);
+
+  // ── Final TorusKnot ──
+  const knotGeo = new THREE.TorusKnotGeometry(3, 1, 200, 32, 3, 2);
+  const knotMat = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+    emissive: 0x111111,
+    emissiveIntensity: 0,
+    metalness: 1,
+    roughness: 0.05,
+    transparent: true,
+    opacity: 0,
+  });
+  const finalKnot = new THREE.Mesh(knotGeo, knotMat);
+  scene.add(finalKnot);
+
+  // ── 3 color-cycling point lights ──
+  const lightColors = [0xff0055, 0x5500ff, 0x00ffaa];
+  const lights = lightColors.map((col, i) => {
+    const light = new THREE.PointLight(col, 3, 60);
+    light.position.set(
+      Math.cos(i * Math.PI * 2 / 3) * 15,
+      Math.sin(i * Math.PI * 2 / 3) * 15,
+      10
+    );
+    light.userData = { phase: i * (Math.PI * 2 / 3) };
+    scene.add(light);
+    return light;
+  });
+
+  // Ambient
+  scene.add(new THREE.AmbientLight(0x111111));
+
+  // ── Dust particles drifting outward ──
+  const dustCount = 800;
+  const dustGeo = new THREE.BufferGeometry();
+  const dustPos = new Float32Array(dustCount * 3);
+  const dustVel = [];
+  for (let i = 0; i < dustCount; i++) {
+    dustPos[i * 3] = (Math.random() - 0.5) * 2;
+    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 2;
+    dustPos[i * 3 + 2] = (Math.random() - 0.5) * 2;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const speed = 0.02 + Math.random() * 0.05;
+    dustVel.push(new THREE.Vector3(
+      speed * Math.sin(phi) * Math.cos(theta),
+      speed * Math.sin(phi) * Math.sin(theta),
+      speed * Math.cos(phi)
+    ));
+  }
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  const dustMat = new THREE.PointsMaterial({
+    size: 0.08,
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const dustSystem = new THREE.Points(dustGeo, dustMat);
+  scene.add(dustSystem);
+
+  // Show canvas again
+  renderer.domElement.style.transition = 'opacity 1s ease';
+  renderer.domElement.style.opacity = '1';
+
+  // Reveal post-text container
+  document.getElementById('post-text').style.display = 'block';
+
+  let postTime = 0;
+  const line1Shown = false, line2Shown = false, line3Shown = false;
+  let l1 = false, l2 = false, l3 = false;
+
+  // Kill old animate loop — swap to post-collapse loop
+  const postAnimate = () => {
+    if (!collapsed) return;
+    requestAnimationFrame(postAnimate);
+
+    const d = clock.getDelta();
+    postTime += d;
+
+    // Bloom sphere fades out, knot fades in
+    if (bloomSphere.material.opacity > 0) {
+      bloomSphere.material.opacity = Math.max(0, bloomSphere.material.opacity - d * 0.4);
+    }
+    if (finalKnot.material.opacity < 1) {
+      finalKnot.material.opacity = Math.min(1, finalKnot.material.opacity + d * 0.25);
+      finalKnot.material.emissiveIntensity = finalKnot.material.opacity * 0.15;
+    }
+    if (dustMat.opacity < 0.5) {
+      dustMat.opacity = Math.min(0.5, dustMat.opacity + d * 0.2);
+    }
+
+    // Knot slow rotation
+    finalKnot.rotation.x += d * 0.15;
+    finalKnot.rotation.y += d * 0.22;
+
+    // Color-cycling lights orbit
+    lights.forEach((light, i) => {
+      const t = postTime * 0.5 + light.userData.phase;
+      light.position.set(
+        Math.cos(t) * 15,
+        Math.sin(t * 0.7) * 10,
+        Math.sin(t) * 15
+      );
+      light.color.setHSL((postTime * 0.08 + i * 0.33) % 1, 1, 0.5);
+    });
+
+    // Dust drifts outward
+    const dPos = dustGeo.attributes.position;
+    for (let i = 0; i < dustCount; i++) {
+      dPos.setX(i, dPos.getX(i) + dustVel[i].x);
+      dPos.setY(i, dPos.getY(i) + dustVel[i].y);
+      dPos.setZ(i, dPos.getZ(i) + dustVel[i].z);
+      // Reset if too far
+      const dist = Math.sqrt(
+        dPos.getX(i) ** 2 + dPos.getY(i) ** 2 + dPos.getZ(i) ** 2
+      );
+      if (dist > 60) {
+        dPos.setX(i, (Math.random() - 0.5) * 2);
+        dPos.setY(i, (Math.random() - 0.5) * 2);
+        dPos.setZ(i, (Math.random() - 0.5) * 2);
+      }
+    }
+    dPos.needsUpdate = true;
+
+    // Text sequence
+    if (!l1 && postTime > 2.2) {
+      l1 = true;
+      document.getElementById('post-line-1').classList.add('visible');
+    }
+    if (!l2 && postTime > 4.8) {
+      l2 = true;
+      document.getElementById('post-line-2').classList.add('visible');
+    }
+    if (!l3 && postTime > 7.5) {
+      l3 = true;
+      document.getElementById('start-over-link').classList.add('visible');
+    }
+
+    renderer.render(scene, camera);
+  };
+
+  postAnimate();
+}
+
+// ═══════════════════════════════════════════
+// SCENE INIT
+// ═══════════════════════════════════════════
 function init() {
   clock = new THREE.Clock();
   scene = new THREE.Scene();
@@ -241,7 +975,7 @@ function init() {
   renderer.setClearColor(0x000000);
   document.body.appendChild(renderer.domElement);
 
-  // ─── The Void Core — a writhing toroidal knot ───
+  // ─── The Void Core ───
   const knotGeo = new THREE.TorusKnotGeometry(4, 1.5, 200, 32, 3, 5);
   const knotMat = new THREE.MeshStandardMaterial({
     color: 0x000000,
@@ -291,8 +1025,8 @@ function init() {
     new THREE.ConeGeometry(0.5, 1.5, 3),
     new THREE.TorusKnotGeometry(0.5, 0.15, 64, 8, 2, 3),
     new THREE.BoxGeometry(0.8, 0.8, 0.8),
-    new THREE.SphereGeometry(0.5, 4, 2), // Low-poly sphere = cursed
-    new THREE.CylinderGeometry(0, 0.8, 1.2, 3), // Pyramid
+    new THREE.SphereGeometry(0.5, 4, 2),
+    new THREE.CylinderGeometry(0, 0.8, 1.2, 3),
     new THREE.IcosahedronGeometry(0.6, 0),
   ];
 
@@ -311,7 +1045,6 @@ function init() {
     });
     const mesh = new THREE.Mesh(geo, mat);
 
-    // Distribute in a sphere
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
     const r = 10 + Math.random() * 40;
@@ -334,7 +1067,6 @@ function init() {
       pulseSpeed: 0.5 + Math.random() * 2,
       originalScale: s,
       phase: Math.random() * Math.PI * 2,
-      attracted: false,
     };
 
     objects.push(mesh);
@@ -388,15 +1120,10 @@ function init() {
   point3.position.set(0, 15, -10);
   scene.add(point3);
 
-  // ─── Start message spawner ───
-  setInterval(spawnMessage, 3000);
+  // ─── Start timers ───
+  messageInterval = setInterval(spawnMessage, 3000);
   setTimeout(spawnMessage, 500);
-
-  // ─── Start entropy counter ───
-  setInterval(updateEntropy, 100);
-
-  // ─── Start coordinate scrambler ───
-  setInterval(scrambleCoords, 2000);
+  coordInterval = setInterval(scrambleCoords, 2000);
 
   window.addEventListener('resize', onResize);
   animate();
@@ -431,7 +1158,6 @@ function spawnBurst() {
     });
     const mesh = new THREE.Mesh(geo, mat);
 
-    // Convert mouse to 3D
     const vec = new THREE.Vector3(targetMouseX, -targetMouseY, 0.5);
     vec.unproject(camera);
     vec.sub(camera.position).normalize();
@@ -474,18 +1200,9 @@ function spawnBurst() {
   }
 }
 
-// ─── Entropy display ───
-function updateEntropy() {
-  stability = Math.max(0, stability - 0.02 - Math.random() * 0.05);
-  const bars = Math.round(stability / 10);
-  const filled = '█'.repeat(bars);
-  const empty = '░'.repeat(10 - bars);
-  document.getElementById('entropy').textContent =
-    `VOID STABILITY: ${filled}${empty} ${stability.toFixed(1)}%`;
-}
-
 // ─── Coordinate scrambler ───
 function scrambleCoords() {
+  if (collapsed) return;
   const dims = ['NULL', 'UNDEFINED', '∅', 'NaN', 'VOID', '∞', '-∞', '???', '404', 'REDACTED', 'CORRUPTED'];
   const signals = ['LOST', 'FADING', 'GONE', 'ECHO', 'STATIC', 'DEAD', 'GHOST', '░░░░'];
   const timelines = ['FRACTURED', 'LOOPING', 'COLLAPSED', 'DIVERGENT', 'ERASED', 'BLEEDING', 'RECURSIVE'];
@@ -516,7 +1233,6 @@ function updateGlitch() {
     glitchIntensity *= 0.95;
   } else {
     glitchOverlay.style.background = 'none';
-    // Random glitch bursts
     if (Math.random() > 0.997) {
       glitchIntensity = 0.3 + Math.random() * 0.5;
     }
@@ -530,21 +1246,56 @@ function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// ─── Main loop ───
+// ─── Main animate loop ───
 function animate() {
+  if (collapsed) return;
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
   time += delta;
+
+  // Cursor lag: use mouse position from 200ms ago
+  if (cursorLag) {
+    const now = Date.now();
+    const lagged = mouseHistory.find(h => now - h.t >= 200);
+    if (lagged) {
+      cursor.style.left = lagged.x - 10 + 'px';
+      cursor.style.top = lagged.y - 10 + 'px';
+    }
+  }
 
   // Smooth mouse
   mouseX += (targetMouseX - mouseX) * 0.05;
   mouseY += (targetMouseY - mouseY) * 0.05;
 
-  // Camera orbits based on mouse
-  camera.position.x = Math.sin(time * 0.1 + mouseX * 2) * 30;
-  camera.position.y = Math.cos(time * 0.08 + mouseY * 2) * 15;
-  camera.position.z = Math.cos(time * 0.1) * 30;
-  camera.lookAt(0, 0, 0);
+  // Camera orbit
+  let camX = Math.sin(time * 0.1 + mouseX * 2) * 30;
+  let camY = Math.cos(time * 0.08 + mouseY * 2) * 15;
+  let camZ = Math.cos(time * 0.1) * 30;
+
+  // Phase 2+: camera roll
+  if (cameraRollSpeed > 0) {
+    camera.rotation.z += cameraRollSpeed;
+  }
+
+  // Jitter
+  if (jitterAmount > 0) {
+    camX += (Math.random() - 0.5) * jitterAmount * 10;
+    camY += (Math.random() - 0.5) * jitterAmount * 10;
+  }
+
+  // Constant shake (phase 3+)
+  if (constantShake) {
+    camX += (Math.random() - 0.5) * 3;
+    camY += (Math.random() - 0.5) * 3;
+  }
+
+  camera.position.x = camX;
+  camera.position.y = camY;
+  camera.position.z = camZ;
+
+  if (!collapsing) {
+    camera.lookAt(0, 0, 0);
+  }
 
   // Void core writhes
   voidCore.rotation.x += 0.003 + mouseX * 0.01;
@@ -554,6 +1305,46 @@ function animate() {
   voidCore.scale.set(pulse, pulse, pulse);
   voidCore.material.emissive.setHSL((time * 0.05) % 1, 1, 0.3);
   voidCore.children[0].material.emissive.setHSL((time * 0.05 + 0.5) % 1, 1, 0.4);
+
+  // voidCore2 orbits main core (phase 3+)
+  if (voidCore2) {
+    voidCore2.position.x = Math.sin(time * 0.7) * 8;
+    voidCore2.position.y = Math.cos(time * 0.5) * 6;
+    voidCore2.position.z = Math.sin(time * 0.3) * 8;
+    voidCore2.rotation.x += 0.01;
+    voidCore2.rotation.y += 0.008;
+    voidCore2.material.emissive.setHSL((time * 0.05 + 0.33) % 1, 1, 0.3);
+  }
+
+  // Eye tracks camera (phase 4+)
+  if (eyeGroup) {
+    eyeGroup.lookAt(camera.position);
+    // Iris/pupil track mouse
+    const iris = eyeGroup.getObjectByName('iris');
+    const pupil = eyeGroup.getObjectByName('pupil');
+    if (iris) {
+      iris.position.x = targetMouseX * 0.4;
+      iris.position.y = -targetMouseY * 0.4;
+    }
+    if (pupil) {
+      pupil.position.x = targetMouseX * 0.6;
+      pupil.position.y = -targetMouseY * 0.6;
+    }
+    // Pulse
+    const ep = 1 + Math.sin(time * 3) * 0.05;
+    const s = eyeGroup.scale;
+    eyeGroup.scale.set(ep, s.y, ep);
+  }
+
+  // Gravity — objects attract toward void core
+  if (gravityStrength > 0) {
+    objects.forEach(obj => {
+      const dir = new THREE.Vector3().subVectors(new THREE.Vector3(0, 0, 0), obj.position);
+      const dist = dir.length();
+      dir.normalize().multiplyScalar(gravityStrength * (50 / (dist + 1)));
+      obj.userData.orbitRadius = Math.max(5, obj.userData.orbitRadius - 0.0005);
+    });
+  }
 
   // Rings orbit
   rings.forEach((ring, i) => {
@@ -569,26 +1360,21 @@ function animate() {
     const d = obj.userData;
     const t = time * d.orbitSpeed + d.orbitOffset;
 
-    // Spiral orbit
     const orbitR = d.orbitRadius + Math.sin(time * 0.3 + i) * 3;
     obj.position.x = Math.sin(t) * orbitR * Math.cos(d.phase + time * 0.02);
     obj.position.y = Math.cos(t * 0.7) * orbitR * 0.5 + Math.sin(time * d.wobbleSpeed + i) * d.wobbleAmount;
     obj.position.z = Math.cos(t) * orbitR * Math.sin(d.phase + time * 0.02);
 
-    // Rotation
     obj.rotation.x += delta * d.wobbleSpeed * 0.3;
     obj.rotation.y += delta * d.wobbleSpeed * 0.2;
 
-    // Pulse scale
     const s = d.originalScale * (1 + Math.sin(time * d.pulseSpeed + i) * 0.3);
     obj.scale.set(s, s, s);
 
-    // Color cycling
     if (obj.material.emissive) {
       obj.material.emissive.setHSL((time * 0.05 + i * 0.01) % 1, 1, 0.3 + Math.sin(time + i) * 0.1);
     }
 
-    // Phase through: random opacity flicker
     if (Math.random() > 0.999) {
       obj.material.opacity = Math.random() * 0.3;
       setTimeout(() => { obj.material.opacity = 0.3 + Math.random() * 0.5; }, 100 + Math.random() * 300);
@@ -599,28 +1385,23 @@ function animate() {
   particleSystem.rotation.y += delta * 0.02;
   particleSystem.rotation.x += delta * 0.01;
 
-  // Particle color cycling
   const pColors = particleSystem.geometry.attributes.color;
-  for (let i = 0; i < pColors.count; i += 50) { // Update every 50th particle per frame
+  for (let i = 0; i < pColors.count; i += 50) {
     const c = new THREE.Color().setHSL((time * 0.1 + i * 0.001) % 1, 0.6, 0.5);
     pColors.setXYZ(i, c.r, c.g, c.b);
   }
   pColors.needsUpdate = true;
 
-  // Fog color shifts
-  const fogHue = (time * 0.02) % 1;
-  scene.fog.color.setHSL(fogHue, 0.3, 0.02);
+  // Fog color shifts — red tint in phase 2+
+  if (phase >= 2) {
+    scene.fog.color.setHSL(0, 0.8, 0.01 + Math.sin(time * 0.3) * 0.005);
+  } else {
+    const fogHue = (time * 0.02) % 1;
+    scene.fog.color.setHSL(fogHue, 0.3, 0.02);
+  }
   renderer.setClearColor(scene.fog.color);
 
-  // Glitch
   updateGlitch();
-
-  // Occasional camera shake
-  if (glitchIntensity > 0.1) {
-    camera.position.x += (Math.random() - 0.5) * glitchIntensity * 2;
-    camera.position.y += (Math.random() - 0.5) * glitchIntensity * 2;
-  }
-
   renderer.render(scene, camera);
 }
 
