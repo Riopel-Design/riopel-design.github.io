@@ -443,6 +443,93 @@
       border-color: var(--accent);
       opacity: 0.8;
     }
+
+    /* ── STOCK CHART ── */
+    .stock-chart {
+      margin-top: 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 640px;
+    }
+
+    .stock-chart img {
+      width: 100%;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .stock-chart figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── REVEAL SCENE ── */
+    .scene-reveal {
+      justify-content: center;
+    }
+
+    .scene-reveal .scene-title {
+      font-size: clamp(4rem, 12vw, 11rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .reveal-sub {
+      font-family: var(--font-mono) !important;
+      font-size: 0.85rem !important;
+      color: var(--muted) !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── CODE VIEWER ── */
+    .code-viewer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .code-viewer { grid-template-columns: 1fr; }
+    }
+
+    .code-panel {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+
+    .code-panel-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+    }
+
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      color: #9a9490;
+      padding: 1.25rem 1rem;
+      overflow-x: auto;
+      white-space: pre;
+      margin-bottom: 0 !important;
+    }
+
+    .code-key { color: var(--text); }
+    .code-comment { color: var(--muted); }
   </style>
 </head>
 <body>
@@ -475,20 +562,14 @@
       <h2 class="scene-title">Let me tell you about <span class="figma-word">Figma.</span></h2>
       <div class="scene-body">
         <p>
-          Figma launched in 2016 and quickly disrupted an industry. Before it, designers worked in
-          Photoshop. Then XD. Tools that lived on your hard drive, didn't sync, and required
-          a 20-step handoff process just to share a button with a developer.
+          Figma launched in 2016 and changed everything — browser-based, real-time, and
+          collaborative, it killed the clunky hard-drive tools designers had been fighting
+          with for years.
         </p>
         <p>
-          Figma was <strong>browser-based, collaborative, and real-time.</strong> You could share
-          a link and anyone could open it and see exactly what you were looking at. No exports.
-          No version confusion.
-        </p>
-        <p>
-          For designers, it felt like a revolution. And for a while, it was. If you worked in
-          product or brand design between 2017 and 2023, Figma was the job. Understanding it deeply
-          was a career skill. It was the tool that separated designers who knew what they were doing
-          from designers who didn't.
+          If you worked in product design between 2017 and 2023, understanding Figma deeply
+          was a career skill — it was the tool that separated designers who knew what they
+          were doing from designers who didn't.
         </p>
       </div>
     </div>
@@ -501,16 +582,18 @@
       <h2 class="scene-title">Adobe tried to buy it<br>for <em>$20 billion.</em></h2>
       <div class="scene-body">
         <p>
-          In 2022, Adobe announced it would acquire Figma for $20 billion. The largest design
-          software acquisition in history.
+          In 2022, Adobe announced it would acquire Figma for $20 billion — the largest
+          design software acquisition in history — only to have European regulators block
+          the deal in late 2023.
         </p>
         <p>
-          Adobe had Photoshop, Illustrator, XD. It had decades of industry dominance. And it still
+          Adobe had decades of dominance with Photoshop, Illustrator, and XD, and still
           felt the need to spend $20 billion to neutralize a 6-year-old startup.
         </p>
-        <p>
-          European regulators blocked the deal in late 2023.
-        </p>
+        <figure class="stock-chart">
+          <img src="/img/figma-stock.png" alt="Figma stock price since IPO" />
+          <figcaption>Figma — stock price since IPO</figcaption>
+        </figure>
         <div class="callout">
           <p>BUT the real threat to Figma was never Adobe. It was something else entirely.</p>
         </div>
@@ -518,16 +601,26 @@
     </div>
   </section>
 
-  <!-- SCENE 3: TWO THINGS I BUILT -->
-  <section class="scene" id="scene-3">
+  <!-- SCENE 3: THE AI REVEAL -->
+  <section class="scene scene-reveal" id="scene-3">
     <div class="scene-inner">
-      <div class="scene-number">03 — Two Things I Built</div>
-      <h2 class="scene-title">Each one<br><em>chips away.</em></h2>
+      <div class="scene-number">03 — The Real Threat</div>
+      <h2 class="scene-title"><em>Artificial<br>Intelligence.</em></h2>
+      <div class="scene-body">
+        <p class="reveal-sub">The thing Adobe couldn't buy its way out of.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 4: WHAT I BUILT -->
+  <section class="scene" id="scene-4">
+    <div class="scene-inner">
+      <div class="scene-number">04 — Two Things I Built</div>
+      <h2 class="scene-title">Here's what<br><em>I shipped.</em></h2>
       <div class="scene-body">
         <p>
-          The best way to understand where design is going isn't to read about it.
-          It's to look at what's already being built. Here are two things I've
-          shipped at RVezy that didn't exist in a designer's toolkit two years ago.
+          Here are two things I've shipped at RVezy that didn't exist in a designer's
+          toolkit two years ago.
         </p>
 
         <div class="project-card">
@@ -536,12 +629,13 @@
             <h3 class="project-title">The Email Builder</h3>
           </div>
           <p class="project-body">
-            Our email production workflow is ridiculous: design in Figma, export with Emailify
+            Our email production workflow was: design in Figma, export with Emailify
             (the worst plugin ever built), hand off to Braze, fix everything that broke.
-            In just a few days I built an internal Next.js tool that replaced that entire chain.
-            Pick a template, configure blocks, preview in dark and light mode, and copy the HTML —
-            without touching Figma or writing a single line of code. It's live and we're iterating
-            to make it production-ready.
+          </p>
+          <p class="project-body">
+            In just a few days I built an internal Next.js tool that replaced the entire
+            chain — pick a template, configure blocks, preview in dark and light mode,
+            copy the HTML. No Figma. No code.
           </p>
           <a class="demo-cta" href="https://rvezy-email-builder.vercel.app/" target="_blank">→ Live Demo</a>
         </div>
@@ -552,27 +646,61 @@
             <h3 class="project-title">The Figma Plugin — and the Brain Behind It</h3>
           </div>
           <p class="project-body">
-            Before Stitch, I built an AI-powered Figma plugin that generates production-ready
-            Vue and Tailwind components pulled from our design system.
+            I built an AI-powered Figma plugin that generates production-ready Vue and
+            Tailwind components pulled directly from our design system.
           </p>
           <p class="project-body">
-            Behind it are two files: a design system document that captures every component,
-            color, spacing rule, and interaction pattern RVezy uses in its product today.
-            Plus a color registry that maps our brand colors into values any tool or model can read.
+            The brain behind it is those two files — the design system doc and the color
+            registry. The plugin is just the hands.
           </p>
-          <div class="callout" style="margin-top: 1.5rem;">
-            <p>Without Figma and this plugin, those two files are what RVezy's design language actually looks like. That's the real next step.</p>
+          <div class="code-viewer">
+            <div class="code-panel">
+              <div class="code-panel-label">rvezy-design-system.md</div>
+              <pre class="code-block"><span class="code-comment"># RVezy Design System v2.0</span>
+<span class="code-comment"># Vue 3 + Tailwind CSS v4</span>
+
+<span class="code-key">## Button</span>
+Variants: default | highlight | secondary
+Sizes: sm (h-9) | md (h-11) | lg (h-13)
+Always: rounded-full, border-2, font-semibold
+
+default:   bg-primary-950 text-white
+highlight: bg-secondary text-white
+secondary: bg-white text-primary-950
+
+<span class="code-key">## Badge</span>
+success: bg-green-100 text-green-700
+warning: bg-orange-100 text-orange-700
+error:   bg-red-100 text-red-700</pre>
+            </div>
+            <div class="code-panel">
+              <div class="code-panel-label">colors-rgb.json</div>
+              <pre class="code-block"><span class="code-comment">// Brand colors as RGB values</span>
+<span class="code-comment">// readable by any tool or model</span>
+
+<span class="code-key">"primary"</span>: {
+  "500": { "r": 0.184, "g": 0.706, "b": 1.0 },
+  "600": { "r": 0.153, "g": 0.427, "b": 0.973 },
+  "950": { "r": 0.075, "g": 0.145, "b": 0.345 }
+},
+<span class="code-key">"semantic"</span>: {
+  "secondary": { "r": 0.153, "g": 0.427, "b": 0.973 },
+  "white":     { "r": 1.0,   "g": 1.0,   "b": 1.0 },
+  "black":     { "r": 0.0,   "g": 0.0,   "b": 0.0 }
+}</pre>
+            </div>
           </div>
+          <a class="demo-cta" href="#" onclick="return false;">→ Live Demo</a>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- SCENE 4: HOW I WORK NOW -->
-  <section class="scene" id="scene-4">
+  <!-- SCENE 5: HOW I WORK NOW -->
+  <section class="scene" id="scene-5">
     <div class="scene-inner">
-      <div class="scene-number">04 — How I Work Now</div>
+      <div class="scene-number">05 — How I Work Now</div>
       <h2 class="scene-title">Figma is the<br><em>last step.</em></h2>
       <div class="scene-body">
         <p>
@@ -583,15 +711,13 @@
           <strong>Tailwind CSS</strong> is a framework developers use to style websites.
         </p>
         <p>
-          <strong>Stitch</strong> is a Google Labs tool that turns a plain English
-          description into a working UI. It runs entirely in your browser. It takes
-          minutes, not hours. And when you're happy with a direction, you paste it
-          straight into Figma.
+          <strong>Stitch</strong> is a Google Labs tool that turns a plain English description
+          into a working UI. It runs entirely in your browser and when you're happy with a
+          direction, you paste it straight into Figma.
         </p>
         <p>
           So here's the workflow: <strong>find a component in Tailwind → describe in Stitch → refine → paste to Figma.</strong>
           Figma is still there. But it's no longer where ideas are born.
-          It's where they get finalized.
         </p>
 
         <div class="workflow-diagram">
@@ -611,42 +737,38 @@
           </div>
         </div>
 
+        <a class="demo-cta" href="#" onclick="return false;">→ Live Demo</a>
       </div>
     </div>
   </section>
 
-  <!-- SCENE 5: SO IS DESIGN DEAD? -->
-  <section class="scene" id="scene-5">
+  <!-- SCENE 6: SO IS DESIGN DEAD? -->
+  <section class="scene" id="scene-6">
     <div class="scene-inner">
-      <div class="scene-number">05 — So Is Design Dead?</div>
+      <div class="scene-number">06 — So Is Design Dead?</div>
       <h2 class="scene-title">The tool was<br>never the <em>skill.</em></h2>
       <div class="scene-body">
         <p>
           A designer's career has historically been built on being very good at specific
-          software. Figma. Photoshop before that. XD in between. Job descriptions used
-          to include the tools by name.
+          software — Figma, Photoshop before that, XD in between.
         </p>
         <p>
           So when I say Figma is losing relevance, I'm saying it as someone whose
           identity was tied to it.
         </p>
         <p>
-          But here's what I've come to understand: the designers who are thriving right
-          now aren't the ones who resisted these tools — they're the ones who recognized
-          what actually made them good in the first place. It was never really about the software.
+          The designers who are thriving right now aren't the ones who resisted these
+          tools — they're the ones who recognized what actually made them good in the
+          first place. It was never really about the software.
         </p>
-
         <div class="callout">
           <p>AI can generate a UI in seconds, but it cannot tell you whether that UI respects your user. That part still requires a human.</p>
         </div>
-
         <p style="margin-top: 1.5rem;">
-          The role is changing. The canvas is changing. The tools are absolutely
-          changing. But the reason great design matters hasn't changed at all.
-          If anything, in a world flooded with AI-generated interfaces,
-          taste is becoming rarer and more valuable, not less.
+          In a world flooded with AI-generated interfaces, taste is becoming rarer
+          and more valuable, not less. I'm not watching this shift from the outside —
+          I'm building inside it, at RVezy, every day.
         </p>
-
       </div>
     </div>
   </section>
