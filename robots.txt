@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://riopel-design.github.io/sitemap.xml
